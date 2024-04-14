@@ -2,17 +2,17 @@
 const { location } = Astro.props;
 ---
 
-<nav class="w-screen flex items-center justify-between p-4 lg:mx-auto lg:justify-center bg-stone-800 text-orange-100 ">
+<nav class="w-screen flex items-center justify-between p-4 lg:mx-auto lg:justify-center bg-stone-800 text-orange-100 dark:bg-stone-700">
 	<div class="flex items-center justify-between flex-wrap w-full lg:w-2/3">
 		<a href="/">
-			<div class="group flex items-center flex-shrink-0 flex-grow hover:text-red-400 py-2.5 px-3.5">
+			<div class="group flex items-center flex-shrink-0 flex-grow hover:text-red-400  py-2.5 px-3.5">
 				<!-- Logo Element -->
 				<span class="font-bold text-xl">QuynhBio</span>
 			</div>
 		</a>
 
 		<div class="block lg:hidden">
-			<button id="navbarBurger" class="flex items-center bg-transparent rounded-md hover:bg-red-200 hover:text-stone-800 py-2.5 px-3.5">
+			<button id="navbarBurger" class="flex items-center bg-transparent rounded-md hover:text-stone-800 hover:bg-red-200 dark:hover:bg-red-400 py-2.5 px-3.5">
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-list fill-current" viewBox="0 0 16 16">
 					<title>Menu</title>
 					<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
@@ -20,18 +20,18 @@ const { location } = Astro.props;
 			</button>
 		</div>
 
-		<div id="navbarLinks" class="w-full block lg:flex lg:items-center lg:w-auto">
+		<div id="navbarLinks" class="w-full hidden lg:flex lg:items-center lg:w-auto">
 			<div>
-				<a id="navbarLink-Home" href="/" class="block mt-3 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 px-3.5 hover:text-stone-800 hover:bg-red-200">
+				<a id="navbarLink-Home" href="/" class="block mt-3 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 px-3.5 hover:text-stone-800 hover:bg-red-200 dark:hover:bg-red-400">
 					Home
 				</a>
-				<a id="navbarLink-Shop" href="/shop" class="block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 px-3.5 hover:text-stone-800 hover:bg-red-200">
+				<a id="navbarLink-Shop" href="/shop" class="block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 px-3.5 hover:text-stone-800 hover:bg-red-200 dark:hover:bg-red-400">
 					Shop
 				</a>
-				<a id="navbarLink-About" href="/about" class="block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 px-3.5 hover:text-stone-800 hover:bg-red-200">
+				<a id="navbarLink-About" href="/about" class="block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 px-3.5 hover:text-stone-800 hover:bg-red-200 dark:hover:bg-red-400">
 					About
 				</a>
-				<a id="navbarLink-Contact" href="/contact" class="block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 px-3.5 hover:text-stone-800 hover:bg-red-200">
+				<a id="navbarLink-Contact" href="/contact" class="block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 px-3.5 hover:text-stone-800 hover:bg-red-200 dark:hover:bg-red-400">
 					Contact
 				</a>
 			</div>
@@ -39,18 +39,20 @@ const { location } = Astro.props;
 	</div>
 </nav>
 <script define:vars={{location}}>
-	const navbarLink = document.getElementById(`navbarLink-${location}`);
-	navbarLink.classList.add("text-red-400");
+	const highlightedLink = document.getElementById(`navbarLink-${location}`);
+	highlightedLink.classList.add("text-red-400");
 
-	function toggleNavbar() {
+	document.getElementById("navbarBurger").addEventListener("click", () => {
 		const navLinks = document.getElementById("navbarLinks");
-		navLinks.style.display = (navLinks.style.display === "none") ? "block" : "none";
-	}
-	document.getElementById("navbarBurger").addEventListener("click", toggleNavbar);
+		const isMenuHidden = navLinks.style.display === "none"
+		navLinks.style.display = (isMenuHidden) ? "block" : "none";
+	});
 
 	window.addEventListener("resize", (e) => {
+		const TAILWIND_LG_BREAKPOINT = 1024;
 		const navLinks = document.getElementById("navbarLinks");
-		const type = screen.orientation.type;
-		navLinks.style.display = (type.startsWith("landscape")) ? "block" : "none";
+
+		const isLandscape = window.innerWidth >= TAILWIND_LG_BREAKPOINT;
+		navLinks.style.display = (isLandscape) ? "flex" : "none";
 	});
 </script>
