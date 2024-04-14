@@ -1,20 +1,26 @@
 ---
 import Navbar from "../components/navbar.astro"
+import HeroLanding from "../components/hero_landing.astro";
 
 const page = "Home";
+
+import heroImage from "../images/landing_hero_cropped.jpg"
+const heroImageAlt = "The Banner Image of the Landing Page"
 ---
 
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
+		<meta charset="utf-8"/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>QuynhBio - {page}</title>
 	</head>
 
-	<body class="bg-orange-100">
-		<Navbar location={page}/>
-
+	<body class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100">
+		<div class="w-svw h-svh">
+			<Navbar location={page} />
+			<HeroLanding heroImage={heroImage} heroImageAlt={heroImageAlt} />
+		</div>
 	</body>
 </html>
