@@ -1,21 +1,43 @@
 ---
-import Card from "./card.astro"
+import Card from "./card.astro";
 
-import cardImage_1 from "../images/Bocchi_The_Scream.jpg"
-import cardImage_2 from "../images/Yukito_Laughing.jpg"
-import cardImage_3 from "../images/Nano_Drinking_Gas.jpg"
+import cardImage_1 from "../images/Bocchi_The_Scream.jpg";
+import cardImage_2 from "../images/Yukito_Laughing.jpg";
+import cardImage_3 from "../images/Nano_Drinking_Gas.jpg";
 ---
 
-<div class="w-full px-8 py-10 flex items-center justify-center text-center bg-orange-200 dark:bg-stone-900">
+<div
+    class="w-full px-8 py-10 flex items-center justify-center text-center bg-orange-200 dark:bg-stone-900"
+>
     <div class="w-full lg:w-4/5 flex flex-col items-center justify-center">
         <h2 class="font-bold text-3xl xs:text-4xl lg:text-5xl py-10">
             Featured Products
         </h2>
 
-        <div class="w-full py-10 columns-3 flex flex-col lg:flex-row items-center justify-center">
-            <Card cardLink="/shop/bocchi" cardImage={cardImage_1} cardImageAlt="Lmao" cardTitle="Bocchi the Scream" cardSubtitle="69420$" />
-            <Card cardLink="/shop/yukito" cardImage={cardImage_2} cardImageAlt="Lmao" cardTitle="Yukito Laughing at You Pathetic Nigerian" cardSubtitle="$UR_MOM$" />
-            <Card cardLink="/shop/nano" cardImage={cardImage_3} cardImageAlt="Lmao" cardTitle="Nano Drinking Gas" cardSubtitle="10101$" />
+        <div
+            class="w-full py-10 columns-3 flex flex-col lg:flex-row items-center justify-center"
+        >
+            <Card
+                cardLink="/shop/bocchi"
+                cardImage={cardImage_1}
+                cardImageAlt="Lmao"
+                cardTitle="Bocchi the Scream"
+                cardSubtitle="69420$"
+            />
+            <Card
+                cardLink="/shop/yukito"
+                cardImage={cardImage_2}
+                cardImageAlt="Lmao"
+                cardTitle="Yukito Laughing at You Pathetic Nigerian"
+                cardSubtitle="$UR_MOM$"
+            />
+            <Card
+                cardLink="/shop/nano"
+                cardImage={cardImage_3}
+                cardImageAlt="Lmao"
+                cardTitle="Nano Drinking Gas"
+                cardSubtitle="10101$"
+            />
         </div>
     </div>
 </div>
