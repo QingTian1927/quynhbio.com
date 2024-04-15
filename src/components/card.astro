@@ -1,0 +1,24 @@
+---
+import { Image } from "astro:assets";
+const { cardLink, cardImage, cardImageAlt, cardTitle, cardSubtitle } = Astro.props;
+---
+
+<div class="group w-full mx-0 lg:mx-4 mb-8 lg:mb-0 flex flex-col self-stretch items-center justify-center rounded-3xl bg-orange-100 hover:bg-red-300 dark:bg-stone-700 dark:hover:bg-red-400 dark:hover:text-stone-800">
+    <a href={cardLink} class="flex flex-row lg:flex-col size-full rounded-3xl">
+        <div class="relative w-full aspect-auto xs:aspect-square bg-contain bg-center bg-stone-700 rounded-l-3xl lg:rounded-bl-none lg:rounded-t-3xl">
+            <Image src={cardImage} alt={cardImageAlt} class="w-full aspect-auto xs:aspect-square object-cover rounded-l-3xl lg:rounded-bl-none lg:rounded-t-3xl" />
+
+            <div class="hidden group-hover:block absolute w-full aspect-auto xs:aspect-square top-0 rounded-l-3xl lg:rounded-bl-none lg:rounded-t-3xl group-hover:bg-stone-800 group-hover:opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25%" height="25%" class="bi bi-box-arrow-up-right absolute top-[35%] right-[35%] group-hover:opacity-100 fill-orange-100" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/>
+                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="w-full p-2 grow flex flex-col items-center justify-center text-center">
+            <h3 class="font-bold mt-2 text-xl text-pretty">{cardTitle}</h3>
+            <p class="my-2 text-md">{cardSubtitle}</p>
+        </div>
+    </a>
+</div>
