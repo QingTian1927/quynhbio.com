@@ -2,6 +2,7 @@
 import Navbar from "../components/navbar.astro"
 import HeroLanding from "../components/hero_landing.astro";
 import FeaturedCards from "../components/featured_cards.astro";
+import Footer from "../components/footer.astro";
 
 const page = "Home";
 
@@ -23,6 +24,7 @@ const heroImageAlt = "The Banner Image of the Landing Page"
 			<Navbar location={page} />
 			<HeroLanding heroImage={heroImage} heroImageAlt={heroImageAlt} />
 			<FeaturedCards />
+			<Footer />
 		</div>
 	</body>
 </html>
