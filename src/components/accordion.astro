@@ -9,7 +9,7 @@ const hideIconId = `${accordionId}-hide`;
 
 <div
 	id={accordionId}
-	class="w-full mb-4 rounded-lg text-left bg-stone-800 text-orange-100 dark:bg-stone-700"
+	class="w-full text-left"
 >
 	<div
 		id={clickableAreaId}
@@ -48,10 +48,10 @@ const hideIconId = `${accordionId}-hide`;
 		</button>
 	</div>
 
-	<hr class="hidden border-orange-100 dark:border-stone-800 mx-4" />
+	<hr class="hidden border-orange-100 mx-4" />
 	<p class="hidden text-pretty text-md p-4">{answer}</p>
 </div>
-<script define:vars={{ accordionId, clickableAreaId, showIconId, hideIconId }}>
+<script define:vars={{ index, accordionId, clickableAreaId, showIconId, hideIconId }}>
 	function getStyle(element, name) {
 		return element.currentStyle
 			? element.currentStyle[name]
@@ -59,6 +59,13 @@ const hideIconId = `${accordionId}-hide`;
 				? window.getComputedStyle(element, null).getPropertyValue(name)
 				: null;
 	}
+
+	function colorAccordion() {
+		const accordion = document.getElementById(accordionId);
+		let attributes = (index % 2 === 0) ? "bg-stone-800 text-orange-100 dark:bg-stone-700" : "bg-stone-700 text-orange-100 dark:bg-stone-600";
+		attributes.split(" ").forEach((attribute) => accordion.classList.add(attribute));
+	}
+	colorAccordion();
 
 	function toggleAccordion() {
 		const accordion = document.getElementById(accordionId);
