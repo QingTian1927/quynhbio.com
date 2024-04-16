@@ -1,0 +1,90 @@
+---
+const { question, answer, index } = Astro.props;
+
+const accordionId = `accordion-${index}`;
+const clickableAreaId = `accordionButton-${index}`;
+const showIconId = `${accordionId}-show`;
+const hideIconId = `${accordionId}-hide`;
+---
+
+<div
+	id={accordionId}
+	class="w-full mb-4 rounded-lg text-left bg-stone-800 text-orange-100 dark:bg-stone-700"
+>
+	<div
+		id={clickableAreaId}
+		class="w-full font-semibold text-xl p-4 flex items-center justify-between cursor-pointer"
+	>
+		<h3 class="mr-4 pointer-events-none">{question}</h3>
+
+		<button>
+			<svg
+				id={showIconId}
+				xmlns="http://www.w3.org/2000/svg"
+				width="1.25rem"
+				height="1.25rem"
+				class="bi bi-chevron-down block fill-orange-100 hover:fill-red-300 dark:hover:fill-red-400"
+				viewBox="0 0 16 16"
+			>
+				<path
+					fill-rule="evenodd"
+					d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+				></path>
+			</svg>
+
+			<svg
+				id={hideIconId}
+				xmlns="http://www.w3.org/2000/svg"
+				width="1.25rem"
+				height="1.25rem"
+				class="bi bi-chevron-up hidden fill-orange-100 hover:fill-red-300 dark:hover:fill-red-400"
+				viewBox="0 0 16 16"
+			>
+				<path
+					fill-rule="evenodd"
+					d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"
+				></path>
+			</svg>
+		</button>
+	</div>
+
+	<hr class="hidden border-orange-100 dark:border-stone-800 mx-4" />
+	<p class="hidden text-pretty text-md p-4">{answer}</p>
+</div>
+<script define:vars={{ accordionId, clickableAreaId, showIconId, hideIconId }}>
+	function getStyle(element, name) {
+		return element.currentStyle
+			? element.currentStyle[name]
+			: window.getComputedStyle
+				? window.getComputedStyle(element, null).getPropertyValue(name)
+				: null;
+	}
+
+	function toggleAccordion() {
+		const accordion = document.getElementById(accordionId);
+		const showIcon = accordion.querySelector(`#${showIconId}`);
+		const hideIcon = accordion.querySelector(`#${hideIconId}`);
+
+		const divider = accordion.querySelector("hr");
+		const contents = accordion.querySelector("p");
+
+		const isClosed =
+			getStyle(showIcon, "display") === "block" &&
+			getStyle(hideIcon, "display") === "none";
+		if (isClosed) {
+			showIcon.style.display = "none";
+			hideIcon.style.display = "block";
+			divider.style.display = "block";
+			contents.style.display = "block";
+			return;
+		}
+
+		showIcon.style.display = "block";
+		hideIcon.style.display = "none";
+		divider.style.display = "none";
+		contents.style.display = "none";
+	}
+
+	const accordionClickableArea = document.getElementById(clickableAreaId);
+	accordionClickableArea.addEventListener("click", toggleAccordion);
+</script>
