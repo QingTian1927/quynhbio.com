@@ -1,9 +1,14 @@
 ---
 import Card from "../shared/card.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 
-import cardImage_1 from "../images/Bocchi_The_Scream.jpg";
-import cardImage_2 from "../images/Yukito_Laughing.jpg";
-import cardImage_3 from "../images/Nano_Drinking_Gas.jpg";
+const { heroImage, heroImageAlt } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
+
+import cardImage_1 from "../../images/Bocchi_The_Scream.jpg";
+import cardImage_2 from "../../images/Yukito_Laughing.jpg";
+import cardImage_3 from "../../images/Nano_Drinking_Gas.jpg";
 ---
 
 <div
@@ -11,7 +16,7 @@ import cardImage_3 from "../images/Nano_Drinking_Gas.jpg";
 >
     <div class="w-full lg:w-4/5 flex flex-col items-center justify-center">
         <h2 class="font-bold text-3xl xs:text-4xl lg:text-5xl py-10">
-            Featured Products
+            { translate('home.featured-products') }
         </h2>
 
         <div
