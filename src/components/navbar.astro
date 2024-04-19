@@ -1,5 +1,9 @@
 ---
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
 const { location } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
 
 const linkClass = "block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 px-3.5 hover:text-stone-800 hover:bg-red-300 dark:hover:bg-red-400";
 ---
@@ -20,6 +24,7 @@ const linkClass = "block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 
 		<div class="block lg:hidden">
 			<button
 				id="navbarBurger"
+				title="Menu"
 				class="group flex items-center rounded-md py-2.5 px-3.5 bg-orange-100 hover:text-stone-800 hover:bg-red-300 dark:bg-stone-800 dark:hover:bg-red-400"
 			>
 				<svg
@@ -29,7 +34,6 @@ const linkClass = "block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 
 					class="bi bi-list fill-stone-800 dark:fill-orange-100 group-hover:fill-stone-800"
 					viewBox="0 0 16 16"
 				>
-					<title>Menu</title>
 					<path
 						fill-rule="evenodd"
 						d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
@@ -43,11 +47,11 @@ const linkClass = "block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 
 			class="w-full hidden lg:flex lg:items-center lg:w-auto"
 		>
 			<div>
-				<a id="navbarLink-Home" href="/" class={linkClass}> Home </a>
-				<a id="navbarLink-Shop" href="/shop" class={linkClass}> Shop </a>
-				<a id="navbarLink-Blog" href="/blog" class={linkClass}> Blog </a>
-				<a id="navbarLink-About" href="/about" class={linkClass}> About </a>
-				<a id="navbarLink-Contact" href="/contact" class={linkClass}> Contact </a>
+				<a id="navbarLink-Home" href="/" class={linkClass}>{ translate('nav.home') }</a>
+				<a id="navbarLink-Shop" href="/shop" class={linkClass}>{ translate('nav.shop') }</a>
+				<a id="navbarLink-Blog" href="/blog" class={linkClass}>{translate('nav.blog') }</a>
+				<a id="navbarLink-About" href="/about" class={linkClass}>{translate('nav.about') }</a>
+				<a id="navbarLink-Contact" href="/contact" class={linkClass}>{translate('nav.contact') }</a>
 			</div>
 		</div>
 	</div>
