@@ -7,6 +7,10 @@ const blogCollection = defineCollection({
     author: z.string().default("Anonymous"),
     language: z.enum(['vi', 'en']),
     date: z.string().transform((str) => new Date(str)),
+    bannerImage: z.object({
+      src: z.string(),
+      alt: z.string(),
+    }).optional(),
   })
 });
 
