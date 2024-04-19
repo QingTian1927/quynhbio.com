@@ -62,7 +62,8 @@ const hideIconId = `${accordionId}-hide`;
 
 	function colorAccordion() {
 		const accordion = document.getElementById(accordionId);
-		let attributes = (index % 2 === 0) ? "bg-stone-800 text-orange-100 dark:bg-stone-700" : "bg-stone-700 text-orange-100 dark:bg-stone-600";
+		// let attributes = (index % 2 === 0) ? "bg-stone-800 text-orange-100 dark:bg-stone-700" : "bg-stone-700 text-orange-100 dark:bg-stone-600";
+		let attributes = "bg-stone-800 text-orange-100 dark:bg-stone-700";
 		attributes.split(" ").forEach((attribute) => accordion.classList.add(attribute));
 	}
 	colorAccordion();
