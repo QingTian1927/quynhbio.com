@@ -11,5 +11,10 @@ export default defineConfig({
 
   markdown: {
     syntaxHighlight: false,
-  }
+  },
+
+  i18n: {
+    defaultLocale: "vi",
+    locales: ["en", "vi"],
+  },
 });
