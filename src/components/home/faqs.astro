@@ -1,5 +1,10 @@
 ---
 import Accordion from "../shared/accordion.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const { heroImage, heroImageAlt } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
 
 let index = 0;
 ---
@@ -9,7 +14,7 @@ let index = 0;
 		class="w-full px-4 lg:w-4/5 lg:mx-auto flex flex-col items-center justify-center text-center"
 	>
 		<h2 class="font-bold text-3xl xs:text-4xl lg:text-5xl py-10">
-			Frequently Asked Questions (FAQs)
+			{ translate('home.faqs') }
 		</h2>
 
 		<div class="w-full mb-6 flex flex-col items-center justify-center">
