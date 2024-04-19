@@ -1,16 +1,18 @@
 ---
-import type { GetStaticPaths } from "astro";
-import { getEntry } from "astro:content";
-import Basehead from "../components/basehead.astro";
-import Navbar from "../components/navbar.astro";
-import Footer from "../components/footer.astro";
+import { getCollection } from "astro:content";
+import Basehead from "../../components/basehead.astro";
+import Navbar from "../../components/navbar.astro";
+import Footer from "../../components/footer.astro";
 
-export const getStaticPaths = (() => {
-	return [{ params: { legal: "privacy" } }, { params: { legal: "terms" } }];
-}) satisfies GetStaticPaths;
+export async function getStaticPaths() {
+	const blogPosts = await getCollection("blog");
+	return blogPosts.map((entry) => ({
+		params: { post: entry.slug },
+		props: { entry },
+	}));
+}
 
-const { legal } = Astro.params;
-const entry = await getEntry("legal", legal);
+const { entry } = Astro.props;
 const { Content, headings } = await entry.render();
 
 const date = new Date(entry.data.date);
@@ -24,10 +26,10 @@ const date = new Date(entry.data.date);
 	<body
 		class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100"
 	>
-		<div class="w-svw h-svh">
+		<div class="w-full h-svh">
 			<Navbar location="" />
 
-			<div class="w-full min-h-[72.8%] px-8 py-10 flex items-center justify-center">
+			<div class="w-full min-h-[72.8%] px-8 py-10 flex items-start justify-center">
 				<article
 					class="lg:w-4/5 py-2.5 px-3.5 max-w-none prose prose-quynhbio dark:prose-invert"
 				>
@@ -37,8 +39,9 @@ const date = new Date(entry.data.date);
 						>
 							{entry.data.title}
 						</h1>
+
 						<small class="text-stone-700 dark:text-orange-100"
-							>Last updated: <time
+							>{entry.data.author} | <time
 								datetime={date.toLocaleString()}
 								>{date.toLocaleDateString()}</time
 							></small
