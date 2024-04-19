@@ -1,6 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations } from "../i18n/utils";
-import { currentYear } from "../i18n/ui";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const translate = useTranslations(lang);

@@ -1,9 +1,9 @@
 ---
 import type { GetStaticPaths } from "astro";
 import { getEntry } from "astro:content";
-import Basehead from "../components/shared/basehead.astro";
-import Navbar from "../components/shared/navbar.astro";
-import Footer from "../components/shared/footer.astro";
+import Basehead from "../../components/shared/basehead.astro";
+import Navbar from "../../components/shared/navbar.astro";
+import Footer from "../../components/shared/footer.astro";
 
 export const getStaticPaths = (() => {
 	return [{ params: { legal: "privacy" } }, { params: { legal: "terms" } }];
