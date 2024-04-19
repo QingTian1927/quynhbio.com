@@ -1,0 +1,30 @@
+---
+import BaseHead from "../../components/shared/basehead.astro";
+import Navbar from "../../components/shared/navbar.astro";
+import HeroLanding from "../../components/home/hero_landing.astro";
+import FeaturedCards from "../../components/home/featured_cards.astro";
+import Faqs from "../../components/home/faqs.astro";
+import Footer from "../../components/shared/footer.astro";
+
+const page = "Home";
+
+import heroImage from "../images/landing_hero_cropped.jpg"
+const heroImageAlt = "The Banner Image of the Landing Page"
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={`QuynhBio - ${page}`} />
+		<meta name="generator" content={Astro.generator} />
+	</head>
+
+	<body class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100">
+		<div class="w-full h-svh">
+			<Navbar location={page} />
+			<HeroLanding heroImage={heroImage} heroImageAlt={heroImageAlt} />
+			<FeaturedCards />
+			<Faqs />
+			<Footer />
+		</div>
+	</body>
+</html>
