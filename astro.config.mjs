@@ -8,4 +8,8 @@ export default defineConfig({
   integrations: [tailwind(), vue()],
   site: "https://www.quynhbio.com",
   server: { port: 6969, host: true },
+
+  markdown: {
+    syntaxHighlight: false,
+  }
 });
