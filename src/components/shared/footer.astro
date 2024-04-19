@@ -1,5 +1,8 @@
 ---
-const currentYear = new Date().getFullYear();
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
 ---
 
 <footer
@@ -55,9 +58,7 @@ const currentYear = new Date().getFullYear();
 			class="w-full py-2.5 lg:px-3.5 flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-between text-center"
 		>
 			<small class="xs:flex-shrink-0"
-				>{
-					`Copyright © ${currentYear} QuynhBio. All rights reserved.`
-				}</small
+				>{ translate('footer.copyright') }</small
 			>
 
 			<div
@@ -66,19 +67,19 @@ const currentYear = new Date().getFullYear();
 				<a href="/sitemap"
 					><small
 						class="ml-2 underline text-red-300 hover:text-red-400"
-						>Site Map</small
+						>{ translate('footer.sitemap') }</small
 					></a
 				>
 				<a href="/privacy"
 					><small
 						class="ml-2 underline text-red-300 hover:text-red-400"
-						>Privacy Policy</small
+						>{ translate('footer.privacy') }</small
 					></a
 				>
 				<a href="/terms"
 					><small
 						class="ml-2 underline text-red-300 hover:text-red-400"
-						>Terms of Service</small
+						>{ translate('footer.terms') }</small
 					></a
 				>
 			</div>
