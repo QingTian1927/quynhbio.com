@@ -57,7 +57,7 @@ export const ui = {
         'home.hero.title.secondHalf': 'với Quỳnh Bio',
         'home.hero.subtitle': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat.',
         'home.hero.shop-now': 'Mua Hàng Ngay',
-        'home.hero.contact-us': 'Liên Hệ Với Chúng Tôi',
+        'home.hero.contact-us': 'Liên hệ với chúng tôi',
         'home.featured-products': 'Sản Phẩm Nổi Bật',
         'home.faqs': 'Câu Hỏi Thường Gặp',
 
