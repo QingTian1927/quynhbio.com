@@ -29,6 +29,10 @@ export const ui = {
         'home.hero.contact-us': 'Contact Us',
         'home.featured-products': 'Featured Products',
         'home.faqs': 'Frequently Asked Questions',
+
+        '404.subtitle': 'The page that you requested could not be found',
+        '404.go-home': 'Go home',
+        '404.contact-us': 'Contact us',
     },
 
     vi: {
@@ -52,5 +56,9 @@ export const ui = {
         'home.hero.contact-us': 'Liên Hệ Với Chúng Tôi',
         'home.featured-products': 'Sản Phẩm Nổi Bật',
         'home.faqs': 'Câu Hỏi Thường Gặp',
+
+        '404.subtitle': 'Nội dung bạn đang cố truy cập không tồn tại trên website',
+        '404.go-home': 'Quay trở lại trang chủ',
+        '404.contact-us': 'Liên hệ với chúng tôi',
     },
 } as const;
