@@ -1,4 +1,4 @@
-import { ui, defaultLang } from './ui';
+import { ui, defaultLang, wordOrder } from './ui';
 
 export function getLangFromUrl(url: URL) {
     const [_, lang] = url.pathname.split('/');
@@ -11,4 +11,8 @@ export function useTranslations(lang: keyof typeof ui) {
     return function translate(key: keyof typeof ui[typeof defaultLang]) {
         return ui[lang][key] || ui[defaultLang][key];
     }
+}
+
+export function getWordOrder(lang: keyof typeof wordOrder) {
+    return wordOrder[lang] || wordOrder[defaultLang];
 }
