@@ -1,0 +1,33 @@
+---
+import { Image, getImage } from "astro:assets";
+const { heroImage, firstWord, secondWord, wordOrder } = Astro.props;
+const optimizedBanner = await getImage({ src: heroImage });
+---
+
+<div
+	class="w-full h-[91.25%] flex items-center justify-center bg-cover bg-center"
+	style={`background-image: url('${optimizedBanner.src}');`}
+>
+	<div
+		class="w-full h-full bg-gradient-to-t from-stone-800/75 via-stone-800/30 flex items-center justify-center"
+	>
+		<div
+			class="h-full w-full lg:w-4/5 px-8 flex flex-col-reverse items-center justify-start"
+		>
+			<div
+				class="w-full h-1/4 px-3.5 mb-10 flex flex-col items-center justify-center text-center"
+			>
+				<h1
+					class="font-bold drop-shadow-[0_4px_3px_rgba(38,38,38,0.07)] text-[12.5vw] 2xs:text-[6vh] xs:text-[7.5vh] sm:text-[8vw] md:text-[7.5vw] xl:text-[6.5vw] text-orange-100"
+				>
+					{ wordOrder === "noun-adjective" && <span>{ firstWord }<br class="sm:hidden" /></span> <span class="text-red-300 dark:text-red-400">{ secondWord }</span> }
+					{ wordOrder === "adjective-noun" && <span>{ secondWord }<br class="sm:hidden" /></span> <span class="text-red-300 dark:text-red-400">{ firstWord }</span> }
+				</h1>
+				<span
+					class="leading-6 text-xl text-orange-100"
+					aria-hidden="true">⌵</span
+				>
+			</div>
+		</div>
+	</div>
+</div>
