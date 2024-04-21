@@ -1,5 +1,5 @@
 ---
-import BaseHead from "../components/shared/basehead.astro";
+import Basehead from "../components/shared/basehead.astro";
 import Navbar from "../components/shared/navbar.astro";
 import HeroLanding from "../components/home/hero_landing.astro";
 import FeaturedCards from "../components/home/featured_cards.astro";
@@ -12,9 +12,9 @@ import heroImage from "../images/landing_hero_cropped.jpg"
 const heroImageAlt = "The Banner Image of the Landing Page"
 ---
 
-<html lang="en">
+<html lang="vi">
 	<head>
-		<BaseHead title={`QuynhBio - ${page}`} />
+		<Basehead title={`QuynhBio - ${page}`} />
 		<meta name="generator" content={Astro.generator} />
 	</head>
 
