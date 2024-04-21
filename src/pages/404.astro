@@ -7,7 +7,7 @@ const lang = getLangFromUrl(Astro.url);
 const translate = useTranslations(lang);
 ---
 
-<html lang="en">
+<html lang={lang}>
     <head>
         <Basehead title="QuynhBio - 404" />
         <meta name="generator" content={Astro.generator} />
