@@ -41,6 +41,7 @@ export const ui = {
         'contact.messenger': 'Facebook Messenger',
         'contact.officeAddress': 'Office Address',
         'contact.toggleMapTheme': 'Toggle Map Theme',
+        'contact.toggleMapThemeHint': 'This is helpful when viewing the map in satellite mode',
 
         '404.subtitle': 'The page that you requested could not be found',
         '404.go-home': 'Go home',
@@ -76,6 +77,7 @@ export const ui = {
         'contact.messenger': 'Messenger',
         'contact.officeAddress': 'Địa Chỉ Văn Phòng',
         'contact.toggleMapTheme': 'Chuyển Màu Sắc Bản Đồ',
+        'contact.toggleMapThemeHint': 'Ấn nút này nếu bạn xem bản đồ ở chế độ vệ tinh',
 
         '404.subtitle': 'Nội dung bạn đang cố truy cập không tồn tại trên website',
         '404.go-home': 'Quay trở lại trang chủ',
