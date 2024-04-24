@@ -3,19 +3,19 @@ const { cardTitle, contactLink, contactText } = Astro.props;
 ---
 
 <div
-	class="w-full mx-0 lg:mx-4 lg:first:mr-4 lg:first:mx-0 lg:last:ml-4 lg:last:mx-0 mb-8 lg:mb-0 flex flex-col self-stretch justify-self-stretch items-center justify-center rounded-xl bg-orange-200 dark:bg-stone-700"
+	class="w-full aspect-[3/1] lg:aspect-auto mx-0 lg:mx-4 lg:first:mr-4 lg:first:mx-0 lg:last:ml-4 lg:last:mx-0 mb-8 lg:mb-0 flex flex-row lg:flex-col self-stretch justify-self-stretch items-center justify-between lg:justify-center rounded-xl bg-orange-200 dark:bg-stone-700"
 >
-	<div class="grow w-full aspect-[3/2] p-4 flex items-center justify-center">
+	<div class="hidden sm:flex lg:grow w-1/2 lg:w-full lg:aspect-[3/2] p-4 items-center justify-center">
 		<slot />
 	</div>
 
 	<address
-		class="shrink-0 w-full aspect-[3/1] p-4 text-center flex flex-col items-center justify-center"
+		class="shrink-0 lg:grow w-full sm:w-1/2 lg:w-full lg:aspect-[3/1] p-4 text-center flex flex-col items-center justify-center"
 	>
-		<p class="mb-2 font-semibold not-italic text-lg">{cardTitle}</p>
+		<p class="mb-2 font-semibold not-italic text-xl">{cardTitle}</p>
 		<a
 			href={contactLink}
-			class="mb-2 text-base underline text-red-500 dark:text-red-400"
+			class="mb-2 text-lg underline text-red-600 dark:text-red-400"
 			>{contactText}</a
 		>
 	</address>
