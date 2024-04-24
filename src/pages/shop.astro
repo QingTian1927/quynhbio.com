@@ -1,0 +1,28 @@
+---
+import Basehead from "../components/shared/basehead.astro"
+import Navbar from "../components/shared/navbar.astro"
+import AccentBanner from "../components/shared/accentBanner.astro"
+import Footer from "../components/shared/footer.astro"
+import { getLangFromUrl, useTranslations } from "../i18n/utils"
+
+const page = "Shop"
+const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
+---
+
+<html lang={lang}>
+	<head>
+		<Basehead title={`QuynhBio - ${page}`} />
+		<meta name="generator" content={Astro.generator} />
+	</head>
+
+	<body class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100">
+		<div class="w-full h-svh">
+			<Navbar location={page} />
+
+			<AccentBanner title="Danh Mục Sản Phẩm" subtitle="Quynhbio Shop kính chào quý khách. Chúc quý khách có một trải nghiệm mua sắm thuận tiện và như ý."/>
+
+			<Footer />
+		</div>
+	</body>
+</html>
