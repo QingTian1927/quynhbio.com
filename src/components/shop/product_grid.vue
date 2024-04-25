@@ -1,13 +1,11 @@
 <script setup>
 	import { ref } from 'vue';
 	import { Product, asc, desc } from 'astro:db';
-
 	import { retrieveCategories, queryProducts } from '../../scripts/databaseUtils';
 
 	const props = defineProps(['formData']);
 	const { order, filter } = props.formData;
-
-	console.log(props.formData);
+	// console.log(props.formData);
 
 	const sortKeyMapping = {
 		"name_asc": { sortKey: asc(Product.name), label: "A-Z" },
