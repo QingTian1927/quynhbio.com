@@ -2,6 +2,7 @@
 import Basehead from "../components/shared/basehead.astro"
 import Navbar from "../components/shared/navbar.astro"
 import AccentBanner from "../components/shared/accentBanner.astro"
+import ProductGrid from "../components/shop/product_grid.vue"
 import Footer from "../components/shared/footer.astro"
 import { getLangFromUrl, useTranslations } from "../i18n/utils"
 
@@ -21,6 +22,8 @@ const translate = useTranslations(lang);
 			<Navbar location={page} />
 
 			<AccentBanner title="Danh Mục Sản Phẩm" subtitle="Quynhbio Shop kính chào quý khách. Chúc quý khách có một trải nghiệm mua sắm thuận tiện và như ý."/>
+
+			<ProductGrid client:load />
 
 			<Footer />
 		</div>
