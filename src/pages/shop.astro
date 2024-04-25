@@ -14,7 +14,7 @@ const translate = useTranslations(lang);
 
 async function parseFormData() {
 	if (Astro.request.method !== "POST") {
-		return { order: "default", filter: ["default"] };
+		return { order: "", filter: [""] };
 	}
 
 	const formData = await Astro.request.formData();
