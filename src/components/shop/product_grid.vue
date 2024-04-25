@@ -1,8 +1,34 @@
 <script setup>
 	import { ref } from 'vue';
-	import { db, Product, asc } from 'astro:db';
+	import { db, Product, or, eq, asc, desc } from 'astro:db';
 
-	const products = await db.select().from(Product).orderBy(asc(Product.name));
+	const props = defineProps(['formData']);
+	console.log(props.formData);
+
+	async function retrieveCategories() {
+		return db.selectDistinct({ category: Product.category }).from(Product);
+	}
+	const categories = await retrieveCategories();
+
+	async function queryProducts(order, filters) {
+		const orderings = {
+			"name_asc": asc(Product.name),
+			"name_desc": desc(Product.name),
+			"price_asc": asc(Product.price),
+			"price_desc": desc(Product.price),
+		};
+		const sortKey = (orderings[order] === undefined) ? '' : orderings[order];
+
+		if (filters.length <= 0 || filters[0] === "default") {
+			return db.select().from(Product).orderBy(sortKey);
+		}
+
+		let filterKeys = filters.map((filter) => eq(Product.category, filter));
+
+		return db.select().from(Product).where(or(filterKeys)).orderBy(sortKey);
+	}
+
+	const products = await queryProducts(props.formData.order, props.formData.filter);
 </script>
 
 <template>
@@ -17,22 +43,22 @@
 						<legend class="text-lg font-semibold mb-1">Thứ tự sắp xếp sản phẩm</legend>
 
 						<p>
-							<input type="radio" name="order_name_asc" id="order_name_asc" class="mr-2" checked />
+							<input type="radio" name="order" id="order_name_asc" value="name_asc" class="mr-2" checked />
 							<label for="order_name_asc">A-Z</label>
 						</p>
 
 						<p>
-							<input type="radio" name="order_name_desc" id="order_name_desc" class="mr-2" />
+							<input type="radio" name="order" id="order_name_desc" value="name_desc" class="mr-2" />
 							<label for="order_name_desc">Z-A</label>
 						</p>
 
 						<p>
-							<input type="radio" name="order_price_asc" id="order_price_asc" class="mr-2" />
+							<input type="radio" name="order" id="order_price_asc" value="price_asc" class="mr-2" />
 							<label for="order_price_asc">Giá: tăng dần</label>
 						</p>
 
 						<p>
-							<input type="radio" name="order_price_desc" id="order_price_desc" class="mr-2" />
+							<input type="radio" name="order" id="order_price_desc" value="price_desc" class="mr-2" />
 							<label for="order_price_desc">Giá: giảm dần</label>
 						</p>
 					</fieldset>
@@ -42,24 +68,9 @@
 					<fieldset class="accent-red-400 dark:accent-red-400 mb-5">
 						<legend class="text-lg font-semibold mb-1">Mặt hàng</legend>
 
-						<p>
-							<input type="checkbox" name="filter_1" id="filter_1" class="mr-2" />
-							<label for="filter_1">Filter 1</label>
-						</p>
-
-						<p>
-							<input type="checkbox" name="filter_2" id="filter_2" class="mr-2" />
-							<label for="filter_2">Filter 2</label>
-						</p>
-
-						<p>
-							<input type="checkbox" name="filter_3" id="filter_3" class="mr-2" />
-							<label for="filter_3">Filter 3</label>
-						</p>
-
-						<p>
-							<input type="checkbox" name="filter_4" id="filter_4" class="mr-2" />
-							<label for="filter_4">Filter 4</label>
+						<p v-for="({category}, index) in categories">
+							<input type="checkbox" name="filter" v-bind="{id: `filter_${index}`, value: category}" class="mr-2" />
+							<label for={{ `filter_${index}` }}>{{ category }}</label>
 						</p>
 					</fieldset>
 

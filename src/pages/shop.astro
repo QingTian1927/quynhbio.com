@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import Basehead from "../components/shared/basehead.astro"
 import Navbar from "../components/shared/navbar.astro"
 import AccentBanner from "../components/shared/accentBanner.astro"
@@ -9,6 +11,20 @@ import { getLangFromUrl, useTranslations } from "../i18n/utils"
 const page = "Shop"
 const lang = getLangFromUrl(Astro.url);
 const translate = useTranslations(lang);
+
+async function parseFormData() {
+	if (Astro.request.method !== "POST") {
+		return { order: "default", filter: ["default"] };
+	}
+
+	const formData = await Astro.request.formData();
+	return {
+		order: formData.get("order"),
+		filter: formData.getAll("filter")
+	};
+}
+const query = await parseFormData();
+
 ---
 
 <html lang={lang}>
@@ -23,7 +39,7 @@ const translate = useTranslations(lang);
 
 			<AccentBanner title="Danh Mục Sản Phẩm" subtitle="Quynhbio Shop kính chào quý khách. Chúc quý khách có một trải nghiệm mua sắm thuận tiện và như ý."/>
 
-			<ProductGrid client:load />
+			<ProductGrid client:load formData={query} />
 
 			<Footer />
 		</div>
