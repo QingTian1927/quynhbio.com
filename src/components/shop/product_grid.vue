@@ -1,34 +1,23 @@
 <script setup>
 	import { ref } from 'vue';
-	import { db, Product, or, eq, asc, desc } from 'astro:db';
+	import { Product, asc, desc } from 'astro:db';
+
+	import { retrieveCategories, queryProducts } from '../../scripts/databaseUtils';
 
 	const props = defineProps(['formData']);
+	const { order, filter } = props.formData;
+
 	console.log(props.formData);
 
-	async function retrieveCategories() {
-		return db.selectDistinct({ category: Product.category }).from(Product);
-	}
+	const sortKeyMapping = {
+		"name_asc": { sortKey: asc(Product.name), label: "A-Z" },
+		"name_desc": { sortKey: desc(Product.name), label: "Z-A" },
+		"price_asc": { sortKey: asc(Product.price), label: "Giá: tăng dần" },
+		"price_desc": { sortKey: desc(Product.price), label: "Giá: giảm dần" },
+	};
+
 	const categories = await retrieveCategories();
-
-	async function queryProducts(order, filters) {
-		const orderings = {
-			"name_asc": asc(Product.name),
-			"name_desc": desc(Product.name),
-			"price_asc": asc(Product.price),
-			"price_desc": desc(Product.price),
-		};
-		const sortKey = (orderings[order] === undefined) ? '' : orderings[order];
-
-		if (filters.length <= 0 || filters[0] === "default") {
-			return db.select().from(Product).orderBy(sortKey);
-		}
-
-		let filterKeys = filters.map((filter) => eq(Product.category, filter));
-
-		return db.select().from(Product).where(or(filterKeys)).orderBy(sortKey);
-	}
-
-	const products = await queryProducts(props.formData.order, props.formData.filter);
+	const products = await queryProducts(sortKeyMapping, order, filter);
 </script>
 
 <template>
@@ -42,24 +31,9 @@
 					<fieldset class="accent-red-400 dark:accent-red-400 mb-5">
 						<legend class="text-lg font-semibold mb-1">Thứ tự sắp xếp sản phẩm</legend>
 
-						<p>
-							<input type="radio" name="order" id="order_name_asc" value="name_asc" class="mr-2" checked />
-							<label for="order_name_asc">A-Z</label>
-						</p>
-
-						<p>
-							<input type="radio" name="order" id="order_name_desc" value="name_desc" class="mr-2" />
-							<label for="order_name_desc">Z-A</label>
-						</p>
-
-						<p>
-							<input type="radio" name="order" id="order_price_asc" value="price_asc" class="mr-2" />
-							<label for="order_price_asc">Giá: tăng dần</label>
-						</p>
-
-						<p>
-							<input type="radio" name="order" id="order_price_desc" value="price_desc" class="mr-2" />
-							<label for="order_price_desc">Giá: giảm dần</label>
+						<p v-for="(value, key) in sortKeyMapping">
+							<input type="radio" name="order" v-bind="{id: `order_${key}`, value: key, checked: order === key || order === '' && key === 'name_asc'}" class="mr-2" />
+							<label for="{{ `order_${key}` }}">{{ value.label }}</label>
 						</p>
 					</fieldset>
 
@@ -69,7 +43,7 @@
 						<legend class="text-lg font-semibold mb-1">Mặt hàng</legend>
 
 						<p v-for="({category}, index) in categories">
-							<input type="checkbox" name="filter" v-bind="{id: `filter_${index}`, value: category}" class="mr-2" />
+							<input type="checkbox" name="filter" v-bind="{id: `filter_${index}`, value: category, checked: filter.includes(category) }" class="mr-2" />
 							<label for={{ `filter_${index}` }}>{{ category }}</label>
 						</p>
 					</fieldset>
