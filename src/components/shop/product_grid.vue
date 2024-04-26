@@ -1,8 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useTranslations } from '../../i18n/utils';
 
-const props = defineProps(['formData', 'sortKeyMapping', 'catalogue']);
+const props = defineProps(['formData', 'sortKeyMapping', 'catalogue', 'lang']);
 const { order, filter } = props.formData;
+
+const { lang } = props;
+const translate = useTranslations(lang);
 
 const aside = ref(null);
 const asideCloseButton = ref(null);
@@ -36,7 +40,7 @@ onMounted(() => {
 									d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z" />
 							</svg>
 						</div>
-						<p class="text-lg leading-6 group-hover:text-stone-800">Sắp Xếp & Lọc Sản Phẩm</p>
+						<p class="text-lg leading-6 group-hover:text-stone-800">{{ translate('shop.filterButton') }}</p>
 					</button>
 				</div>
 			</div>
@@ -52,7 +56,7 @@ onMounted(() => {
 
 				<form method="POST">
 					<fieldset class="accent-red-400 dark:accent-red-400 mb-5">
-						<legend class="text-lg font-semibold mb-1">Thứ tự sắp xếp sản phẩm</legend>
+						<legend class="text-lg font-semibold mb-1">{{ translate('shop.filterForm.sortBy') }}</legend>
 
 						<p v-for="(value, key) in props.sortKeyMapping">
 							<input type="radio" name="order"
@@ -65,7 +69,7 @@ onMounted(() => {
 					<hr class="border-stone-800 dark:border-orange-100 my-5 px-3.5">
 
 					<fieldset class="accent-red-400 dark:accent-red-400 mb-5">
-						<legend class="text-lg font-semibold mb-1">Mặt hàng</legend>
+						<legend class="text-lg font-semibold mb-1">{{ translate('shop.filterForm.filterBy') }}</legend>
 
 						<p v-for="({ category }, index) in props.catalogue.categories">
 							<input type="checkbox" name="filter"
@@ -77,16 +81,18 @@ onMounted(() => {
 
 					<div class="w-full flex items-center justify-center mb-0 md:mb-5">
 						<button type="submit"
-							class="px-3.5 py-2.5 rounded-md bg-orange-200 hover:bg-red-300 dark:bg-stone-700 dark:hover:bg-red-400">Xem
-							kết quả</button>
+							class="px-3.5 py-2.5 rounded-md bg-orange-200 hover:bg-red-300 dark:bg-stone-700 dark:hover:bg-red-400">{{
+								translate('shop.filterForm.viewResults') }}</button>
 					</div>
 				</form>
 			</aside>
 
 			<section class="w-full lg:w-[77.5%] px-3.5 py-2.5">
-				<h2 ref="productGridLabel" class="font-bold text-2xl mb-5">Sản Phẩm</h2>
+				<h2 ref="productGridLabel" class="font-bold text-2xl mb-5">{{ translate('shop.productGrid.title') }}
+				</h2>
 
-				<div class="w-full grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
+				<div
+					class="w-full grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
 					<div v-for="product of props.catalogue.products"
 						class="w-full aspect-auto xs:aspect-[4/5] flex flex-row xs:flex-col items-center justify-between rounded-lg bg-orange-200 dark:bg-stone-700">
 						<div
@@ -100,7 +106,8 @@ onMounted(() => {
 						</div>
 
 						<div class="grow w-full px-3.5 py-2.5 flex flex-col items-start justify-center">
-							<p class="font-semibold xs:line-clamp-2 sm:line-clamp-3 text-ellipsis overflow-hidden">{{ product.name }}</p>
+							<p class="font-semibold xs:line-clamp-2 sm:line-clamp-3 text-ellipsis overflow-hidden">{{
+								product.name }}</p>
 							<p class="mt-1">{{ product.price }}</p>
 						</div>
 					</div>

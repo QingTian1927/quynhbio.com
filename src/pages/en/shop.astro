@@ -1,18 +1,18 @@
 ---
 export const prerender = false;
 
-import Basehead from "../components/shared/basehead.astro";
-import Navbar from "../components/shared/navbar.astro";
-import AccentBanner from "../components/shared/accentBanner.astro";
-import ProductGrid from "../components/shop/product_grid.vue";
-import Footer from "../components/shared/footer.astro";
+import Basehead from "../../components/shared/basehead.astro";
+import Navbar from "../../components/shared/navbar.astro";
+import AccentBanner from "../../components/shared/accentBanner.astro";
+import ProductGrid from "../../components/shop/product_grid.vue";
+import Footer from "../../components/shared/footer.astro";
 
-import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import {
 	retrieveCategories,
 	queryProducts,
 	getProductSortKey,
-} from "../scripts/databaseUtils";
+} from "../../scripts/databaseUtils";
 
 const page = "Shop";
 const lang = getLangFromUrl(Astro.url);
