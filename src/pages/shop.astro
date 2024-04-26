@@ -1,12 +1,13 @@
 ---
 export const prerender = false;
 
-import Basehead from "../components/shared/basehead.astro"
-import Navbar from "../components/shared/navbar.astro"
-import AccentBanner from "../components/shared/accentBanner.astro"
-import ProductGrid from "../components/shop/product_grid.vue"
-import Footer from "../components/shared/footer.astro"
-import { getLangFromUrl, useTranslations } from "../i18n/utils"
+import Basehead from "../components/shared/basehead.astro";
+import Navbar from "../components/shared/navbar.astro";
+import AccentBanner from "../components/shared/accentBanner.astro";
+import ProductGrid from "../components/shop/product_grid.vue";
+import Footer from "../components/shared/footer.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { retrieveCategories, queryProducts, getProductSortKey } from "../scripts/databaseUtils";
 
 const page = "Shop"
 const lang = getLangFromUrl(Astro.url);
@@ -23,8 +24,19 @@ async function parseFormData() {
 		filter: formData.getAll("filter")
 	};
 }
-const query = await parseFormData();
+const formData = await parseFormData();
 
+const sortKeyMapping = {
+	"name_asc": { sortKey: getProductSortKey("name", "asc"), label: "A-Z" },
+	"name_desc": { sortKey: getProductSortKey("name", "desc"), label: "Z-A" },
+	"price_asc": { sortKey: getProductSortKey("price", "asc"), label: "Giá: tăng dần" },
+	"price_desc": { sortKey: getProductSortKey("price", "desc"), label: "Giá: giảm dần" },
+};
+
+const catalogue = {
+	categories: await retrieveCategories(),
+	products: await queryProducts(sortKeyMapping, formData.order, formData.filter)
+}
 ---
 
 <html lang={lang}>
@@ -39,7 +51,7 @@ const query = await parseFormData();
 
 			<AccentBanner title="Danh Mục Sản Phẩm" subtitle="Quynhbio Shop kính chào quý khách. Chúc quý khách có một trải nghiệm mua sắm thuận tiện và như ý."/>
 
-			<ProductGrid client:load formData={query} />
+			<ProductGrid client:load formData={formData} sortKeyMapping={sortKeyMapping} catalogue={await catalogue} />
 
 			<Footer />
 		</div>
