@@ -1,6 +1,6 @@
 ---
 import { Image, getImage } from "astro:assets";
-import { getLangFromUrl, getWordOrder } from "../i18n/utils";
+import { getLangFromUrl, getWordOrder, useTranslations } from "../i18n/utils";
 import Basehead from "../components/shared/basehead.astro";
 import Navbar from "../components/shared/navbar.astro";
 import HeroAbout from "../components/about/hero_about.astro";
@@ -8,6 +8,7 @@ import Footer from "../components/shared/footer.astro";
 
 const page = "About";
 const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
 
 import heroImage from "../images/about/about_hero.jpg";
 const heroImageAlt = "The Banner Image of the About Page";
@@ -15,7 +16,7 @@ const heroImageAlt = "The Banner Image of the About Page";
 
 <html lang="vi">
 	<head>
-		<Basehead title={`QuynhBio - ${page}`} />
+		<Basehead title={`QuynhBio - ${ translate('nav.about') }`} />
 		<meta name="generator" content={Astro.generator} />
 	</head>
 
