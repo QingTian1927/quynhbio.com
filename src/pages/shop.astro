@@ -6,6 +6,7 @@ import Navbar from "../components/shared/navbar.astro";
 import AccentBanner from "../components/shared/accentBanner.astro";
 import ProductGrid from "../components/shop/product_grid.vue";
 import Footer from "../components/shared/footer.astro";
+
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
 import { retrieveCategories, queryProducts, getProductSortKey } from "../scripts/databaseUtils";
 
@@ -27,10 +28,10 @@ async function parseFormData() {
 const formData = await parseFormData();
 
 const sortKeyMapping = {
-	"name_asc": { sortKey: getProductSortKey("name", "asc"), label: "A-Z" },
-	"name_desc": { sortKey: getProductSortKey("name", "desc"), label: "Z-A" },
-	"price_asc": { sortKey: getProductSortKey("price", "asc"), label: "Giá: tăng dần" },
-	"price_desc": { sortKey: getProductSortKey("price", "desc"), label: "Giá: giảm dần" },
+	"name_asc": { sortKey: getProductSortKey("name", "asc"), label: translate('shop.filterForm.nameAsc') },
+	"name_desc": { sortKey: getProductSortKey("name", "desc"), label: translate('shop.filterForm.nameDesc') },
+	"price_asc": { sortKey: getProductSortKey("price", "asc"), label: translate('shop.filterForm.priceAsc') },
+	"price_desc": { sortKey: getProductSortKey("price", "desc"), label: translate('shop.filterForm.priceDesc') },
 };
 
 const catalogue = {
@@ -49,9 +50,9 @@ const catalogue = {
 		<div class="w-full h-svh">
 			<Navbar location={page} />
 
-			<AccentBanner title="Danh Mục Sản Phẩm" subtitle="Quynhbio Shop kính chào quý khách. Chúc quý khách có một trải nghiệm mua sắm thuận tiện và như ý."/>
+			<AccentBanner title={ translate('shop.banner.title') } subtitle={ translate('shop.banner.subtitle') } />
 
-			<ProductGrid client:load formData={formData} sortKeyMapping={sortKeyMapping} catalogue={await catalogue} />
+			<ProductGrid client:load lang={lang} formData={formData} sortKeyMapping={sortKeyMapping} catalogue={catalogue} />
 
 			<Footer />
 		</div>
