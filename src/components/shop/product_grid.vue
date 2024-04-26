@@ -86,11 +86,11 @@ onMounted(() => {
 			<section class="w-full lg:w-[77.5%] px-3.5 py-2.5">
 				<h2 ref="productGridLabel" class="font-bold text-2xl mb-5">Sản Phẩm</h2>
 
-				<div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
+				<div class="w-full grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
 					<div v-for="product of props.catalogue.products"
-						class="w-full aspect-[4/5] flex flex-col items-center justify-between rounded-lg bg-orange-200 dark:bg-stone-700">
+						class="w-full aspect-auto xs:aspect-[4/5] flex flex-row xs:flex-col items-center justify-between rounded-lg bg-orange-200 dark:bg-stone-700">
 						<div
-							class="w-full aspect-square flex items-center justify-center bg-orange-300 dark:bg-stone-900 rounded-t-lg">
+							class="w-full aspect-square flex items-center justify-center bg-orange-300 dark:bg-stone-900 rounded-l-lg xs:rounded-none xs:rounded-t-lg">
 							<svg xmlns="http://www.w3.org/2000/svg" width="25%" height="25%"
 								class="bi bi-image fill-stone-700 dark:fill-orange-200" viewBox="0 0 16 16">
 								<path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
@@ -99,9 +99,9 @@ onMounted(() => {
 							</svg>
 						</div>
 
-						<div class="grow w-full px-3.5 py-2.5 flex items-center justify-between">
-							<p class="grow text-ellipsis">{{ product.name }}</p>
-							<p class="shrink-0 ml-2">{{ product.price }}</p>
+						<div class="grow w-full px-3.5 py-2.5 flex flex-col items-start justify-center">
+							<p class="font-semibold xs:line-clamp-2 sm:line-clamp-3 text-ellipsis overflow-hidden">{{ product.name }}</p>
+							<p class="mt-1">{{ product.price }}</p>
 						</div>
 					</div>
 				</div>
