@@ -8,9 +8,13 @@ import ProductGrid from "../components/shop/product_grid.vue";
 import Footer from "../components/shared/footer.astro";
 
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
-import { retrieveCategories, queryProducts, getProductSortKey } from "../scripts/databaseUtils";
+import {
+	retrieveCategories,
+	queryProducts,
+	getProductSortKey,
+} from "../scripts/databaseUtils";
 
-const page = "Shop"
+const page = "Shop";
 const lang = getLangFromUrl(Astro.url);
 const translate = useTranslations(lang);
 
@@ -22,22 +26,38 @@ async function parseFormData() {
 	const formData = await Astro.request.formData();
 	return {
 		order: formData.get("order"),
-		filter: formData.getAll("filter")
+		filter: formData.getAll("filter"),
 	};
 }
 const formData = await parseFormData();
 
 const sortKeyMapping = {
-	"name_asc": { sortKey: getProductSortKey("name", "asc"), label: translate('shop.filterForm.nameAsc') },
-	"name_desc": { sortKey: getProductSortKey("name", "desc"), label: translate('shop.filterForm.nameDesc') },
-	"price_asc": { sortKey: getProductSortKey("price", "asc"), label: translate('shop.filterForm.priceAsc') },
-	"price_desc": { sortKey: getProductSortKey("price", "desc"), label: translate('shop.filterForm.priceDesc') },
+	name_asc: {
+		sortKey: getProductSortKey("name", "asc"),
+		label: translate("shop.filterForm.nameAsc"),
+	},
+	name_desc: {
+		sortKey: getProductSortKey("name", "desc"),
+		label: translate("shop.filterForm.nameDesc"),
+	},
+	price_asc: {
+		sortKey: getProductSortKey("price", "asc"),
+		label: translate("shop.filterForm.priceAsc"),
+	},
+	price_desc: {
+		sortKey: getProductSortKey("price", "desc"),
+		label: translate("shop.filterForm.priceDesc"),
+	},
 };
 
 const catalogue = {
 	categories: await retrieveCategories(),
-	products: await queryProducts(sortKeyMapping, formData.order, formData.filter)
-}
+	products: await queryProducts(
+		sortKeyMapping,
+		formData.order,
+		formData.filter,
+	),
+};
 ---
 
 <html lang={lang}>
@@ -46,13 +66,24 @@ const catalogue = {
 		<meta name="generator" content={Astro.generator} />
 	</head>
 
-	<body class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100">
+	<body
+		class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100"
+	>
 		<div class="w-full h-svh">
 			<Navbar location={page} />
 
-			<AccentBanner title={ translate('shop.banner.title') } subtitle={ translate('shop.banner.subtitle') } />
+			<AccentBanner
+				title={translate("shop.banner.title")}
+				subtitle={translate("shop.banner.subtitle")}
+			/>
 
-			<ProductGrid client:load lang={lang} formData={formData} sortKeyMapping={sortKeyMapping} catalogue={catalogue} />
+			<ProductGrid
+				client:load
+				lang={lang}
+				formData={formData}
+				sortKeyMapping={sortKeyMapping}
+				catalogue={catalogue}
+			/>
 
 			<Footer />
 		</div>
