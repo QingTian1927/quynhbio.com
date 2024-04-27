@@ -1,0 +1,30 @@
+---
+import Basehead from "../components/shared/basehead.astro";
+import Navbar from "../components/shared/navbar.astro";
+import AccentBanner from "../components/shared/accentBanner.astro";
+import ImagePicker from "../components/imageToBlob/image_picker.vue";
+import Footer from "../components/shared/footer.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = "en";
+const translate = useTranslations(lang);
+---
+
+<html lang={lang}>
+	<head>
+		<Basehead title="QuynhBio - Image to Blob Converter" />
+		<meta name="generator" content={Astro.generator} />
+	</head>
+
+    <body class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100">
+        <div class="w-full h-svh">
+            <Navbar location="" />
+
+            <AccentBanner title="Image to Data URL Converter" subtitle="Although this tool is designed strictly for internal use only, feel free to use it as you wish. No guarantee though ;)" />
+
+            <ImagePicker client:load />
+
+            <Footer />
+        </div>
+    </body>
+</html>
