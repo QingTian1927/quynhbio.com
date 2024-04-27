@@ -47,6 +47,13 @@ function updateDownloadButton(fileName, text) {
 }
 
 onMounted(() => {
+	function handleInvalidFile() {
+		selectedImageName.value = "";
+		selectedImage.value = undefined;
+		chosenFileLabel.value.innerHTML = noImageText;
+		updateDownloadButton("", "");
+	}
+
 	imagePicker.value.addEventListener("change", (e) => {
 		const file = imagePicker.value.files[0];
 		const reader = new FileReader();
@@ -58,14 +65,16 @@ onMounted(() => {
 		}, false);
 
 		if (file) {
+			if (file.size > 384000) {
+				handleInvalidFile();
+				alert("Only files smaller than 375 kilobytes are supported");
+			}
+
 			selectedImageName.value = file.name;
 			chosenFileLabel.value.innerHTML = file.name;
 			reader.readAsDataURL(file);
 		} else {
-			selectedImageName.value = "";
-			selectedImage.value = undefined;
-			chosenFileLabel.value.innerHTML = noImageText;
-			updateDownloadButton("", "");
+			handleInvalidFile();
 		}
 	})
 
