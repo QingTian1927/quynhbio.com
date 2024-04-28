@@ -61,6 +61,8 @@ export const ui = {
     },
 
     vi: {
+        'currency': 'VND',
+
         'nav.home': 'Trang Chủ',
         'nav.shop': 'Sản Phẩm',
         'nav.blog': 'Tin Tức',
