@@ -7,9 +7,14 @@ import Faqs from "../components/home/faqs.astro";
 import Footer from "../components/shared/footer.astro";
 
 const page = "Home";
-
 import heroImage from "../images/landing_hero_cropped.jpg"
 const heroImageAlt = "The Banner Image of the Landing Page"
+
+const faqs = [
+	{ question: 'Lorem ipsum dolor sit amet?', answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat voluptatem.' },
+	{ question: 'Quod idem licet transferre in voluptatem?', answer: 'Ut enim aeque doleamus animo, cum corpore dolemus, fieri tamen permagna accessio potest, si aliquod aeternum et infinitum impendere malum nobis opinemur.' },
+	{ question: 'Ullus investigandi veri, nisi inveneris?', answer: 'Praeterea bona praeterita grata recordatione renovata delectant. Est autem situm in nobis ut et voluptates et dolores nasci fatemur e corporis voluptatibus et doloribus -- itaque concedo, quod modo.' },
+];
 ---
 
 <html lang="vi">
@@ -23,7 +28,7 @@ const heroImageAlt = "The Banner Image of the Landing Page"
 			<Navbar location={page} />
 			<HeroLanding heroImage={heroImage} heroImageAlt={heroImageAlt} />
 			<FeaturedCards />
-			<Faqs />
+			<Faqs faqs={faqs} />
 			<Footer />
 		</div>
 	</body>

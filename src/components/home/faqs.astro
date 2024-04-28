@@ -2,10 +2,10 @@
 import Accordion from "../shared/accordion.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 
-const { heroImage, heroImageAlt } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const translate = useTranslations(lang);
 
+const { faqs } = Astro.props;
 let index = 0;
 ---
 
@@ -14,25 +14,11 @@ let index = 0;
 		class="w-full px-4 lg:w-4/5 lg:mx-auto flex flex-col items-center justify-center text-center"
 	>
 		<h2 class="font-bold text-3xl xs:text-4xl lg:text-5xl py-10">
-			{ translate('home.faqs') }
+			{ translate('faqs.title') }
 		</h2>
 
 		<div class="w-full mb-6 flex flex-col items-center justify-center">
-			<Accordion
-				index={index++}
-				question="Lorem ipsum dolor sit amet?"
-				answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat voluptatem."
-			/>
-			<Accordion
-				index={index++}
-				question="Quod idem licet transferre in voluptatem?"
-				answer="Ut enim aeque doleamus animo, cum corpore dolemus, fieri tamen permagna accessio potest, si aliquod aeternum et infinitum impendere malum nobis opinemur."
-			/>
-			<Accordion
-				index={index++}
-				question="Ullus investigandi veri, nisi inveneris?"
-				answer="Praeterea bona praeterita grata recordatione renovata delectant. Est autem situm in nobis ut et voluptates et dolores nasci fatemur e corporis voluptatibus et doloribus -- itaque concedo, quod modo."
-			/>
+			{ faqs.map((faq: { question: string; answer: string; }) => (<Accordion question={faq.question} answer={faq.answer} index={index++} />)) }
 		</div>
 	</div>
 </div>

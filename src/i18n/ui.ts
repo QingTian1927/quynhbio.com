@@ -19,6 +19,8 @@ export const ui = {
         'nav.about': 'About',
         'nav.contact': 'Contact',
 
+        'faqs.title': 'Frequently Asked Questions',
+
         'footer.copyright': `Copyright © ${currentYear} QuynhBio. All rights reserved.`,
         'footer.sitemap': 'Site Map',
         'footer.privacy': 'Privacy Policy',
@@ -32,7 +34,6 @@ export const ui = {
         'home.hero.shop-now': 'Shop Now',
         'home.hero.contact-us': 'Contact Us',
         'home.featured-products': 'Featured Products',
-        'home.faqs': 'Frequently Asked Questions',
 
         'shop.banner.title': 'Product Catalogue',
         'shop.banner.subtitle': 'Welcome to our Product Catalogue - Where Every Beauty Dream Finds Its Perfect Match',
@@ -66,6 +67,8 @@ export const ui = {
         'nav.about': 'Giới Thiệu',
         'nav.contact': 'Liên Hệ',
 
+        'faqs.title': 'Câu Hỏi Thường Gặp',
+
         'footer.copyright': `Bản quyền © ${currentYear} QuynhBio. Mọi quyền được bảo lưu.`,
         'footer.sitemap': 'Sơ đồ Website',
         'footer.privacy': 'Quyền riêng tư',
@@ -79,7 +82,6 @@ export const ui = {
         'home.hero.shop-now': 'Mua Hàng Ngay',
         'home.hero.contact-us': 'Liên hệ với chúng tôi',
         'home.featured-products': 'Sản Phẩm Nổi Bật',
-        'home.faqs': 'Câu Hỏi Thường Gặp',
 
         'shop.banner.title': 'Danh Mục Sản Phẩm',
         'shop.banner.subtitle': 'Quynhbio Shop kính chào quý khách. Chúc quý khách có một trải nghiệm mua sắm thuận tiện và như ý.',
