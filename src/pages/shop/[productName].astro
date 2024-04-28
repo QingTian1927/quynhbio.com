@@ -1,0 +1,44 @@
+---
+export const prerender = false;
+
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getProductByName } from "../../scripts/databaseUtils";
+
+import Basehead from "../../components/shared/basehead.astro";
+import Navbar from "../../components/shared/navbar.astro";
+import ProductPage from "../../components/shop/product_page.vue";
+import Footer from "../../components/shared/footer.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
+
+const { productName } = Astro.params;
+if (productName === undefined) {
+	throw new Error("[product] slug is undefined");
+}
+
+const entry = await getProductByName(productName);
+if (entry.length <= 0 || !entry) {
+	return Astro.redirect("/404");
+}
+
+const product = entry[0];
+---
+
+<html lang={lang}>
+	<head>
+		<Basehead title={`QuynhBio - ${ product.name }`} />
+		<meta name="generator" content={Astro.generator} />
+	</head>
+
+	<body class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100">
+		<div class="w-full h-svh">
+			<Navbar location="" />
+
+			<ProductPage product={product} lang={lang} />
+
+			<Footer />
+		</div>
+	</body>
+</html>
