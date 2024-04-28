@@ -17,15 +17,26 @@ export function getProductSortKey(column: string, order: string) {
 }
 
 // TODO: specify type.
-export async function queryProducts(sortKeyMapping, order, filters) {
+
+export async function getProductByName(name: string) {
+	if (!name) { return []; }
+	return await db.select().from(Product).where(eq(Product.name, name));
+}
+
+export async function queryProducts(sortKeyMapping = undefined, order = undefined, filters = undefined) {
+	if (!sortKeyMapping && !order && !filters) {
+		return db.select().from(Product);
+	}
+
 	const cannotRetrieveKey = (
-		order === "" ||
+		order === undefined ||
+		sortKeyMapping === undefined ||
 		sortKeyMapping[order] === undefined ||
 		sortKeyMapping[order].sortKey === undefined
 	);
 	const sortKey = (cannotRetrieveKey) ? '' : sortKeyMapping[order].sortKey();
 
-	if (filters.length <= 0 || filters[0] === "") {
+	if (filters.length <= 0 || filters[0] === "" || filters === undefined) {
 		return db.select().from(Product).orderBy(sortKey);
 	}
 
