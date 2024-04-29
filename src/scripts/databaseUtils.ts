@@ -1,7 +1,13 @@
 import { db, Product, or, eq, asc, desc } from 'astro:db';
 
-export function getLinkForm(text: string) {
-	return text.replaceAll(/\s/g, "-");
+export function getLinkForm(productName: string) {
+	if (!productName) { return productName; }
+	return productName.replaceAll(/\s/g, "-");
+}
+
+export function getOriginalForm(productNameLink: string) {
+	if (!productNameLink) { return productNameLink; }
+	return productNameLink.replaceAll(/-/g, " ");
 }
 
 export async function retrieveCategories() {
