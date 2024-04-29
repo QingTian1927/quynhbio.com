@@ -1,8 +1,9 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLinkForm } from "../../scripts/routingUtils";
+import { useTranslations } from "../../i18n/utils";
 
 const { page, uniqueTags, filter, lang } = Astro.props;
+const translate = useTranslations(lang);
 ---
 
 <div class="w-full flex items-center justify-center">
@@ -13,7 +14,7 @@ const { page, uniqueTags, filter, lang } = Astro.props;
 			class="w-full lg:w-1/5 px-3.5 py-2.5 lg:sticky left-0 right-0 top-0 text-left"
 		>
 			<div class="flex items-center justify-start">
-				<h2 class="inline font-bold text-2xl leading-6">Thẻ Bài</h2>
+				<h2 class="inline font-bold text-2xl leading-6">{ translate("blog.filterForm.tags") }</h2>
 			</div>
 			<hr class="border-stone-800 dark:border-orange-100 my-5" />
 
@@ -24,8 +25,7 @@ const { page, uniqueTags, filter, lang } = Astro.props;
 							<a
 								href={getRelativeLocaleUrl(
 									lang,
-									`tags/${tag}/1`,
-									{ prependWith: "blog" },
+									`/blog/tags/${tag}/1`,
 								)}
 								class:list={[
 									"underline mr-2 leading-6 text-red-400 dark:text-red-400",
@@ -41,7 +41,7 @@ const { page, uniqueTags, filter, lang } = Astro.props;
 		</aside>
 
 		<section class="w-full lg:w-4/5 px-3.5 py-2.5">
-			<h2 class="font-bold text-2xl mb-5">Bài Viết</h2>
+			<h2 class="font-bold text-2xl mb-5">{ translate("blog.blogListing.title") }</h2>
 
 			<div class="w-full flex flex-col items-start justify-center">
 				{
@@ -89,8 +89,7 @@ const { page, uniqueTags, filter, lang } = Astro.props;
 											<a
 												href={getRelativeLocaleUrl(
 													lang,
-													`tags/${tag}/1`,
-													{ prependWith: "blog" },
+													`blog/tags/${tag}/1`,
 												)}
 												class="px-2 py-1 rounded-sm text-xs bg-orange-100 dark:bg-stone-800"
 											>

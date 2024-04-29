@@ -42,8 +42,8 @@ const translate = useTranslations(lang);
 			<Navbar location={location} />
 
 			<AccentBanner
-				title="Tin Tức"
-				subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+				title={ translate("blog.banner.title") }
+				subtitle={ translate("blog.banner.subtitle") }
 			/>
 
 			<BlogListing page={page} uniqueTags={uniqueTags} lang={lang} filter={params} />
