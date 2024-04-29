@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { useTranslations } from '../../i18n/utils';
-import { getLinkForm } from '../../scripts/databaseUtils';
+import { getLinkForm } from '../../scripts/routingUtils';
 
 const props = defineProps(['formData', 'sortKeyMapping', 'catalogue', 'lang']);
 const { order, filter } = props.formData;
