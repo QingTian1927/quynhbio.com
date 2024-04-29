@@ -1,4 +1,7 @@
 ---
+import { getLangFromUrl } from "../i18n/utils";
+import { getProductByName } from "../scripts/databaseUtils";
+
 import Basehead from "../components/shared/basehead.astro";
 import Navbar from "../components/shared/navbar.astro";
 import HeroLanding from "../components/home/hero_landing.astro";
@@ -6,6 +9,7 @@ import FeaturedCards from "../components/home/featured_cards.astro";
 import Faqs from "../components/home/faqs.astro";
 import Footer from "../components/shared/footer.astro";
 
+const lang = getLangFromUrl(Astro.url);
 const page = "Home";
 import heroImage from "../images/landing_hero_cropped.jpg"
 const heroImageAlt = "The Banner Image of the Landing Page"
@@ -15,9 +19,15 @@ const faqs = [
 	{ question: 'Quod idem licet transferre in voluptatem?', answer: 'Ut enim aeque doleamus animo, cum corpore dolemus, fieri tamen permagna accessio potest, si aliquod aeternum et infinitum impendere malum nobis opinemur.' },
 	{ question: 'Ullus investigandi veri, nisi inveneris?', answer: 'Praeterea bona praeterita grata recordatione renovata delectant. Est autem situm in nobis ut et voluptates et dolores nasci fatemur e corporis voluptatibus et doloribus -- itaque concedo, quod modo.' },
 ];
+
+const featuredProducts = [
+    await getProductByName("Hifumi Daisuki"),
+    await getProductByName("TGC Ayaka"),
+    await getProductByName("Bocchi the Scream"),
+];
 ---
 
-<html lang="vi">
+<html lang={lang}>
 	<head>
 		<Basehead title={`QuynhBio - ${page}`} />
 		<meta name="generator" content={Astro.generator} />
@@ -27,7 +37,7 @@ const faqs = [
 		<div class="w-full h-svh">
 			<Navbar location={page} />
 			<HeroLanding heroImage={heroImage} heroImageAlt={heroImageAlt} />
-			<FeaturedCards />
+			<FeaturedCards featuredProducts={featuredProducts} />
 			<Faqs faqs={faqs} />
 			<Footer />
 		</div>
