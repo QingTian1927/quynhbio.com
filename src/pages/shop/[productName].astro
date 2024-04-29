@@ -1,9 +1,11 @@
 ---
 export const prerender = false;
 
+import { marked } from 'marked';
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { getProductByName } from "../../scripts/databaseUtils";
+import { getOriginalForm } from '../../scripts/routingUtils';
 
 import Basehead from "../../components/shared/basehead.astro";
 import Navbar from "../../components/shared/navbar.astro";
@@ -18,7 +20,7 @@ if (productName === undefined) {
 	throw new Error("[product] slug is undefined");
 }
 
-const entry = await getProductByName(productName);
+const entry = await getProductByName(getOriginalForm(productName));
 if (entry.length <= 0 || !entry) {
 	return Astro.redirect("/404");
 }
@@ -36,7 +38,9 @@ const product = entry[0];
 		<div class="w-full h-svh">
 			<Navbar location="" />
 
-			<ProductPage product={product} lang={lang} />
+			<ProductPage product={product} lang={lang}>
+				<article class="max-w-none prose prose-quynhbio dark:prose-invert" set:html={ marked.parse(product.description) } />
+			</ProductPage>
 
 			<Footer />
 		</div>

@@ -5,7 +5,7 @@ const Product = defineTable({
   columns: {
     id: column.number({ primaryKey: true }),
     name: column.text({ unique: true }),
-    description: column.text({ default: "No description provided" }),
+    description: column.text({ default: "No description provided." }),
     category: column.text(),
     price: column.number(),
     media: column.json({ optional: true }),
