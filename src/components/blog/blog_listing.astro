@@ -87,7 +87,11 @@ const { page, uniqueTags, filter, lang } = Astro.props;
 									{post.data.tags.map((tag) => (
 										<li class="list-inside list-none mr-2 mb-2 3xs:mb-0">
 											<a
-												href="#"
+												href={getRelativeLocaleUrl(
+													lang,
+													`tags/${tag}/1`,
+													{ prependWith: "blog" },
+												)}
 												class="px-2 py-1 rounded-sm text-xs bg-orange-100 dark:bg-stone-800"
 											>
 												{tag}
