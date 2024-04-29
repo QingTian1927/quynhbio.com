@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { getUniqueBlogTags } from "../../scripts/collectionUtils";
+
+import Basehead from "../../components/shared/basehead.astro";
+import Navbar from "../../components/shared/navbar.astro";
+import AccentBanner from "../../components/shared/accentBanner.astro";
+import BlogListing from "../../components/blog/blog_listing.astro";
+import Footer from "../../components/shared/footer.astro";
+
+export async function getStaticPaths({ paginate }) {
+	const blogEntries = await getCollection("blog");
+	return paginate(blogEntries, { pageSize: 25 });
+}
+
+const { page } = Astro.props;
+const uniqueTags = await getUniqueBlogTags();
+
+const location = "Blog";
+const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
+---
+
+<html lang={lang}>
+	<head>
+		<Basehead title={`QuynhBio - ${ translate('nav.blog') }`} />
+		<meta name="generator" content={Astro.generator} />
+	</head>
+
+	<body class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100">
+		<div class="w-full h-svh">
+			<Navbar location={location} />
+
+			<AccentBanner
+				title={ translate("blog.banner.title") }
+				subtitle={ translate("blog.banner.subtitle") }
+			/>
+
+			<BlogListing page={page} uniqueTags={uniqueTags} lang={lang} />
+
+			<Footer />
+		</div>
+	</body>
+</html>
