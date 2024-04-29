@@ -1,6 +1,6 @@
 import { db, Product, or, eq, asc, desc } from 'astro:db';
 
-export function convertSpaceToDash(text: string) {
+export function getLinkForm(text: string) {
 	return text.replaceAll(/\s/g, "-");
 }
 
