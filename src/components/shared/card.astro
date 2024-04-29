@@ -1,21 +1,58 @@
 ---
 import { Image } from "astro:assets";
-const { cardLink, cardImage, cardImageAlt, cardTitle, cardSubtitle } =
-    Astro.props;
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+import { getLinkForm } from "../../scripts/databaseUtils";
+import { useTranslations } from "../../i18n/utils";
+
+const { product, lang } = Astro.props;
+const translate = useTranslations(lang);
 ---
 
 <div
     class="group w-full mx-0 mb-10 lg:mx-4 lg:mb-0 flex flex-col self-stretch items-center justify-center rounded-xl bg-orange-100 hover:bg-red-300 dark:bg-stone-700 dark:hover:bg-red-400 dark:hover:text-stone-800"
 >
-    <a href={cardLink} class="flex flex-row lg:flex-col size-full rounded-xl">
+    <a
+        href={getRelativeLocaleUrl(lang, getLinkForm(product.name), {
+            prependWith: "shop",
+        })}
+        class="flex flex-row lg:flex-col size-full rounded-xl"
+    >
         <div
             class="hidden 3xs:block relative w-full aspect-auto 2xs:aspect-square bg-contain bg-center bg-stone-700 rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl"
         >
-            <Image
-                src={cardImage}
-                alt={cardImageAlt}
-                class="w-full aspect-auto 2xs:aspect-square object-cover rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl"
-            />
+            <div
+                class="w-full aspect-auto 2xs:aspect-square object-cover rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl bg-orange-300 dark:bg-stone-800"
+            >
+                {
+                    product.media && (
+                        <img
+                            src={product.media.thumbnail.src}
+                            alt={product.media.thumbnail.alt}
+                            class="size-full object-cover rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl"
+                        />
+                    )
+                }
+                {
+                    !product.media && (
+                        <div class="h-full aspect-square flex flex-col items-center justify-center">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="25%"
+                                height="25%"
+                                class="bi bi-image fill-stone-800/50 dark:fill-orange-200/50"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
+                            </svg>
+                            <p class="mt-1 text-xs xs:text-base text-stone-800/50 dark:text-orange-200/50 text-center">
+                                No image available
+                            </p>
+                        </div>
+                    )
+                }
+            </div>
 
             <div
                 class="hidden group-hover:block absolute w-full aspect-auto 2xs:aspect-square top-0 rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl group-hover:bg-stone-800 group-hover:opacity-50"
@@ -42,8 +79,15 @@ const { cardLink, cardImage, cardImageAlt, cardTitle, cardSubtitle } =
         <div
             class="w-full p-4 lg:p-3.5 grow flex flex-col items-start justify-center text-left"
         >
-            <h3 class="font-bold mt-2 text-lg xs:text-2xl lg:text-xl text-pretty">{cardTitle}</h3>
-            <p class="my-2 text-sm xs:text-lg lg:text-md">{cardSubtitle}</p>
+            <h3
+                class="font-bold mt-2 text-lg xs:text-2xl lg:text-xl text-pretty"
+            >
+                {product.name}
+            </h3>
+            <p class="my-2 text-sm xs:text-lg lg:text-md">
+                {product.price}
+                {translate("currency")}
+            </p>
         </div>
     </a>
 </div>
