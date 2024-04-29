@@ -4,7 +4,8 @@ export const prerender = false;
 import { marked } from 'marked';
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
-import { getProductByName, getOriginalForm } from "../../scripts/databaseUtils";
+import { getProductByName } from "../../scripts/databaseUtils";
+import { getOriginalForm } from '../../scripts/routingUtils';
 
 import Basehead from "../../components/shared/basehead.astro";
 import Navbar from "../../components/shared/navbar.astro";
