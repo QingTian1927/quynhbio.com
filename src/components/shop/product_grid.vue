@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { useTranslations } from '../../i18n/utils';
+import { getLinkForm } from '../../scripts/databaseUtils';
 
 const props = defineProps(['formData', 'sortKeyMapping', 'catalogue', 'lang']);
 const { order, filter } = props.formData;
@@ -95,7 +96,7 @@ onMounted(() => {
 				<div
 					class="w-full grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
 					<a v-for="product of props.catalogue.products"
-						:href="getRelativeLocaleUrl(lang, product.name, { prependWith: 'shop' })"
+						:href="getRelativeLocaleUrl(lang, getLinkForm(product.name), { prependWith: 'shop' })"
 						class="group w-full aspect-auto xs:aspect-[4/5] flex flex-row xs:flex-col items-center justify-between rounded-lg bg-orange-200 dark:bg-stone-700">
 						<div
 							class="relative w-full aspect-square hidden 3xs:flex items-center justify-center bg-orange-300 dark:bg-stone-900 rounded-l-lg xs:rounded-none xs:rounded-t-lg">
