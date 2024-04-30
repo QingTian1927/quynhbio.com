@@ -1,6 +1,6 @@
 ---
 import { getLangFromUrl } from "../i18n/utils";
-import { getProductByName } from "../scripts/databaseUtils";
+import { getProductByName, getProductById } from "../scripts/databaseUtils";
 
 import Basehead from "../components/shared/basehead.astro";
 import Navbar from "../components/shared/navbar.astro";
@@ -21,9 +21,9 @@ const faqs = [
 ];
 
 const featuredProducts = [
-    await getProductByName("Hifumi Daisuki"),
-    await getProductByName("TGC Ayaka"),
-    await getProductByName("Bocchi the Scream"),
+	await getProductById(1),
+	await getProductById(2),
+	await getProductById(3),
 ];
 ---
 
