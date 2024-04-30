@@ -31,7 +31,7 @@ export function getProductSortKey(column: string, order: string) {
 
 export async function queryProducts(sortKeyMapping = undefined, order = undefined, filters = undefined) {
 	if (!sortKeyMapping && !order && !filters) {
-		return db.select().from(Product);
+		return db.select().from(Product).orderBy(asc(Product.category));
 	}
 
 	const cannotRetrieveKey = (
