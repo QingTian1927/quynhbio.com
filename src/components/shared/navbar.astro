@@ -61,7 +61,8 @@ const linkClass = "block mt-2 lg:mt-0 lg:inline-block lg:mr-4 rounded-md py-2.5 
 	function highlightNavbar() {
 		const highlightedLink = document.getElementById(`navbarLink-${location}`);
 		if (highlightedLink === undefined || highlightedLink === null) { return; }
-		highlightedLink.classList.add("text-red-400");
+		highlightedLink.classList.add("text-red-300");
+		highlightedLink.classList.add("dark:text-red-400");
 	}
 	highlightNavbar();
 
