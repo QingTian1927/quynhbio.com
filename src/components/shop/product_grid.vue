@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { defaultLang } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import { getLinkForm } from '../../scripts/routingUtils';
 
@@ -73,11 +74,12 @@ onMounted(() => {
 					<fieldset class="accent-red-400 dark:accent-red-400 mb-5">
 						<legend class="text-lg font-semibold mb-1">{{ translate('shop.filterForm.filterBy') }}</legend>
 
-						<p v-for="({ category }, index) in props.catalogue.categories">
+						<p v-for="({ category, translations }, index) in props.catalogue.categories">
 							<input type="checkbox" name="filter"
 								v-bind="{ id: `filter_${index}`, value: category, checked: filter.includes(category) }"
 								class="mr-2" />
-							<label for={{ `filter_${index}` }}>{{ category }}</label>
+							<label v-if="lang === defaultLang" for={{ `filter_${index}` }}>{{ category }}</label>
+							<label v-else for={{ `filter_${index}` }}>{{ (translations && translations[lang]) ? translations[lang] : category }}</label>
 						</p>
 					</fieldset>
 

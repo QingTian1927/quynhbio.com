@@ -1,7 +1,8 @@
-import { db, Product, or, eq, asc, desc } from 'astro:db';
+import { db, or, eq, asc, desc } from 'astro:db';
+import { Product, ProductCategories } from 'astro:db';
 
 export async function retrieveCategories() {
-	return db.selectDistinct({ category: Product.category }).from(Product);
+	return db.select().from(ProductCategories);
 }
 
 export async function getProductByName(name: string) {
