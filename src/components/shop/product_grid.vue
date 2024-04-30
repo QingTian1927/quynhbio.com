@@ -5,8 +5,9 @@ import { defaultLang } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import { getLinkForm } from '../../scripts/routingUtils';
 
-const props = defineProps(['formData', 'sortKeyMapping', 'catalogue', 'lang']);
+const props = defineProps(['formData', 'sortKeyMapping', 'productPage', 'lang']);
 const { order, filter } = props.formData;
+const { catalogue, previousPage, currentPage, nextPage } = props.productPage;
 
 const { lang } = props;
 const translate = useTranslations(lang);
@@ -74,7 +75,7 @@ onMounted(() => {
 					<fieldset class="accent-red-400 dark:accent-red-400 mb-5">
 						<legend class="text-lg font-semibold mb-1">{{ translate('shop.filterForm.filterBy') }}</legend>
 
-						<p v-for="({ category, translations }, index) in props.catalogue.categories">
+						<p v-for="({ category, translations }, index) in catalogue.categories">
 							<input type="checkbox" name="filter"
 								v-bind="{ id: `filter_${index}`, value: category, checked: filter.includes(category) }"
 								class="mr-2" />
@@ -97,7 +98,7 @@ onMounted(() => {
 
 				<div
 					class="w-full grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
-					<a v-for="product of props.catalogue.products"
+					<a v-for="product of catalogue.products"
 						:href="getRelativeLocaleUrl(lang, getLinkForm(product.name), { prependWith: 'shop' })"
 						class="group w-full aspect-auto xs:aspect-[4/5] flex flex-row xs:flex-col items-center justify-between rounded-lg bg-orange-200 dark:bg-stone-700">
 						<div

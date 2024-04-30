@@ -1,0 +1,133 @@
+---
+export const prerender = false;
+import { getAbsoluteLocaleUrl } from "astro:i18n";
+
+import Basehead from "../../components/shared/basehead.astro";
+import Navbar from "../../components/shared/navbar.astro";
+import AccentBanner from "../../components/shared/accentBanner.astro";
+import ProductGrid from "../../components/shop/product_grid.vue";
+import Footer from "../../components/shared/footer.astro";
+
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import {
+	retrieveCategories,
+	queryProducts,
+	getProductSortKey,
+} from "../../scripts/databaseUtils";
+import {
+	chunkArray,
+	getNextIndex,
+	getPrevIndex,
+} from "../../scripts/routingUtils";
+import { currentYear } from "../../i18n/ui";
+
+const location = "Shop";
+const lang = getLangFromUrl(Astro.url);
+const translate = useTranslations(lang);
+
+async function parseFormData() {
+	if (Astro.request.method !== "POST") {
+		return {
+			method: "GET",
+			order: "category_asc",
+			filter: [""]
+		};
+	}
+
+	const formData = await Astro.request.formData();
+	return {
+		method: "POST",
+		order: formData.get("order"),
+		filter: formData.getAll("filter"),
+	};
+}
+const formData = await parseFormData();
+
+const sortKeyMapping = {
+	name_asc: {
+		sortKey: getProductSortKey("name", "asc"),
+		label: translate("shop.filterForm.nameAsc"),
+	},
+	name_desc: {
+		sortKey: getProductSortKey("name", "desc"),
+		label: translate("shop.filterForm.nameDesc"),
+	},
+	category_asc: {
+		sortKey: getProductSortKey("category", "asc"),
+		label: translate("shop.filterForm.categoryAsc"),
+	},
+	category_desc: {
+		sortKey: getProductSortKey("category", "desc"),
+		label: translate("shop.filterForm.categoryDesc"),
+	},
+	price_asc: {
+		sortKey: getProductSortKey("price", "asc"),
+		label: translate("shop.filterForm.priceAsc"),
+	},
+	price_desc: {
+		sortKey: getProductSortKey("price", "desc"),
+		label: translate("shop.filterForm.priceDesc"),
+	},
+};
+
+const categories = await retrieveCategories();
+const products = await queryProducts(
+	sortKeyMapping,
+	formData.order,
+	formData.filter,
+);
+
+const pageSize = 25;
+const pages = (chunkArray(products, pageSize)).map((value, index) => {
+	const numberOfPages = Math.ceil(products.length / pageSize);
+	const pageIndex = index + 1;
+
+	// 1-based indexing (as opposed to 0-based indexing)
+	return {
+		previousPage: (pageIndex === 1) ? undefined : `${pageIndex - 1}`,
+		currentPage: `${pageIndex}`,
+		nextPage: (pageIndex === numberOfPages) ? undefined : `${pageIndex + 1}`,
+		catalogue: { categories: categories, products: value },
+	};
+});
+
+const { slug } = Astro.params;
+if (slug === undefined) {
+	throw new Error("Shop pagination [slug] is undefined");
+}
+
+const productPage = pages.find((page) => page.currentPage === slug);
+if (!productPage) {
+	return Astro.redirect(getAbsoluteLocaleUrl(lang, "404"));
+}
+---
+
+<html lang={lang}>
+	<head>
+		<Basehead title={`QuynhBio - ${translate("nav.shop")}`} />
+		<meta name="generator" content={Astro.generator} />
+	</head>
+
+	<body
+		class="bg-orange-100 text-stone-800 dark:bg-stone-800 dark:text-orange-100"
+	>
+		<div class="w-full h-svh">
+			<Navbar location={location} />
+
+			<AccentBanner
+				title={translate("shop.banner.title")}
+				subtitle={translate("shop.banner.subtitle")}
+			/>
+
+			<ProductGrid
+				client:load
+				lang={lang}
+				formData={formData}
+				sortKeyMapping={sortKeyMapping}
+				productPage={productPage}
+			/>
+
+			<Footer />
+		</div>
+	</body>
+</html>
