@@ -63,7 +63,7 @@ onMounted(() => {
 
 						<p v-for="(value, key) in props.sortKeyMapping">
 							<input type="radio" name="order"
-								v-bind="{ id: `order_${key}`, value: key, checked: order === key || order === '' && key === 'name_asc' }"
+								v-bind="{ id: `order_${key}`, value: key, checked: order === key || order === '' && key === 'category_asc' }"
 								class="mr-2" />
 							<label for="{{ `order_${key}` }}">{{ value.label }}</label>
 						</p>
@@ -136,7 +136,8 @@ onMounted(() => {
 							class="grow w-full h-full xs:h-auto px-3.5 py-2.5 flex flex-col items-start justify-center rounded-r-lg xs:rounded-none xs:rounded-b-lg group-hover:text-stone-800 group-hover:bg-red-300 dark:group-hover:bg-red-400">
 							<p class="font-semibold text-base 2xs:text-lg xs:line-clamp-2 sm:line-clamp-3 text-ellipsis overflow-hidden">{{
 								product.name }}</p>
-							<p class="mt-1">{{ product.price }}</p>
+							<p class="">{{ product.price }} {{ translate("currency") }}</p>
+							<p class="mt-2 text-xs italic">{{ product.category }}</p>
 						</div>
 					</a>
 				</div>
