@@ -9,17 +9,12 @@ import ProductGrid from "../../components/shop/product_grid.vue";
 import Footer from "../../components/shared/footer.astro";
 
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { chunkArray } from "../../scripts/routingUtils";
 import {
 	retrieveCategories,
 	queryProducts,
 	getProductSortKey,
 } from "../../scripts/databaseUtils";
-import {
-	chunkArray,
-	getNextIndex,
-	getPrevIndex,
-} from "../../scripts/routingUtils";
-import { currentYear } from "../../i18n/ui";
 
 const location = "Shop";
 const lang = getLangFromUrl(Astro.url);
