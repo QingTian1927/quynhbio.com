@@ -1,6 +1,5 @@
 ---
 export const prerender = false;
-import { getAbsoluteLocaleUrl } from "astro:i18n";
 
 import Basehead from "../../components/shared/basehead.astro";
 import Navbar from "../../components/shared/navbar.astro";
@@ -72,17 +71,21 @@ const products = await queryProducts(
 	formData.filter,
 );
 
-const pageSize = 25;
+const pageSize = 24;
 const pages = (chunkArray(products, pageSize)).map((value, index) => {
 	const numberOfPages = Math.ceil(products.length / pageSize);
 	const pageIndex = index + 1;
 
 	// 1-based indexing (as opposed to 0-based indexing)
 	return {
+		formMethod: Astro.request.method,
+		catalogue: { categories: categories, products: value },
+
+		firstPage: '1',
 		previousPage: (pageIndex === 1) ? undefined : `${pageIndex - 1}`,
 		currentPage: `${pageIndex}`,
 		nextPage: (pageIndex === numberOfPages) ? undefined : `${pageIndex + 1}`,
-		catalogue: { categories: categories, products: value },
+		lastPage: numberOfPages.toString(),
 	};
 });
 
