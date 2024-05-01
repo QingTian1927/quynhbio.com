@@ -54,6 +54,7 @@ export const ui = {
 		'blog.banner.subtitle': 'Get the latest news, makeup guides and beauty tips from yours truly.',
 		'blog.filterForm.tags': 'Tags',
 		'blog.blogListing.title': 'Posts',
+		'blog.post.by': 'By',
 
 		'contact.title': 'Get in Touch',
 		'contact.subtitle': 'Have a problem? Feel free to contact us.',
@@ -113,6 +114,7 @@ export const ui = {
 		'blog.banner.subtitle': 'Cập nhật những thông tin mới nhất về chủ đề chăm sóc sắc đẹp',
 		'blog.filterForm.tags': 'Thẻ Bài',
 		'blog.blogListing.title': 'Bài Viết',
+		'blog.post.by': 'Bởi',
 
 		'contact.title': 'Thông Tin Liên Lạc',
 		'contact.subtitle': 'Bạn có vấn đề hoặc câu hỏi gì sao? Hãy liên hệ với chúng tôi.',

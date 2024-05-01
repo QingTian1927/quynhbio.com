@@ -122,11 +122,11 @@ onMounted(() => {
 					class="w-full grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
 					<a v-for="product of catalogue.products"
 						:href="getRelativeLocaleUrl(lang, getLinkForm(product.name), { prependWith: 'shop/product' })"
-						class="group w-full aspect-auto xs:aspect-[4/5] flex flex-row xs:flex-col items-center justify-between rounded-lg bg-orange-200 dark:bg-stone-700">
+						class="group w-full aspect-[2/1] xs:aspect-[4/5] flex flex-row xs:flex-col items-center justify-between rounded-lg bg-orange-200 dark:bg-stone-700">
 						<div
-							class="relative w-full aspect-square hidden 3xs:flex items-center justify-center bg-orange-300 dark:bg-stone-900 rounded-l-lg xs:rounded-none xs:rounded-t-lg">
+							class="relative w-full h-full xs:h-auto aspect-auto xs:aspect-square hidden 3xs:flex items-center justify-center bg-orange-300 dark:bg-stone-900 rounded-l-lg xs:rounded-none xs:rounded-t-lg">
 							<div v-if="!product.media"
-								class="w-full aspect-square flex flex-col items-center justify-center">
+								class="w-full h-full xs:w-full xs:h-auto aspect-auto xs:aspect-square flex flex-col items-center justify-center">
 								<svg xmlns="http://www.w3.org/2000/svg" width="25%" height="25%"
 									class="bi bi-image fill-stone-800/50 dark:fill-orange-200/50" viewBox="0 0 16 16">
 									<path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
@@ -141,10 +141,10 @@ onMounted(() => {
 
 							<img v-else :src="product.media.thumbnail.src" :alt="product.media.thumbnail.alt"
 								loading="lazy"
-								class="w-full aspect-square object-cover rounded-l-lg xs:rounded-none xs:rounded-t-lg">
+								class="w-full h-full xs:h-auto aspect-auto xs:aspect-square object-cover rounded-l-lg xs:rounded-none xs:rounded-t-lg">
 
 							<div
-								class="hidden group-hover:block absolute opacity-50 w-full aspect-square top-0 rounded-l-lg xs:rounded-none xs:rounded-t-lg group-hover:bg-stone-800">
+								class="hidden group-hover:block absolute opacity-50 w-full h-full xs:h-auto aspect-auto xs:aspect-square top-0 rounded-l-lg xs:rounded-none xs:rounded-t-lg group-hover:bg-stone-800">
 								<svg xmlns="http://www.w3.org/2000/svg" width="25%" height="25%"
 									class="bi bi-box-arrow-up-right absolute top-[35%] right-[35%] group-hover:opacity-100 fill-orange-200"
 									viewBox="0 0 16 16">
@@ -159,12 +159,12 @@ onMounted(() => {
 						</div>
 
 						<div
-							class="grow w-full h-full xs:h-auto px-3.5 py-2.5 flex flex-col items-start justify-center rounded-r-lg xs:rounded-none xs:rounded-b-lg group-hover:text-stone-800 group-hover:bg-red-300 dark:group-hover:bg-red-400">
+							class="grow w-full h-full xs:h-auto px-3.5 py-2.5 flex flex-col items-start justify-center rounded-lg 3xs:rounded-none 3xs:rounded-r-lg xs:rounded-none xs:rounded-b-lg group-hover:text-stone-800 group-hover:bg-red-300 dark:group-hover:bg-red-400">
 							<p
-								class="font-semibold text-base 2xs:text-lg xs:line-clamp-2 sm:line-clamp-3 text-ellipsis overflow-hidden">
+								class="xs:grow font-semibold text-base 2xs:text-lg xs:line-clamp-2 sm:line-clamp-3 text-ellipsis overflow-hidden">
 								{{
 									product.name }}</p>
-							<p class="">{{ product.price }} {{ translate("currency") }}</p>
+							<p class="text-sm 2xs:text-base">{{ product.price }} {{ translate("currency") }}</p>
 							<p class="mt-2 text-xs italic">{{ product.category }}</p>
 						</div>
 					</a>

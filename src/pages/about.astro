@@ -16,7 +16,7 @@ const heroImageAlt = "The Banner Image of the About Page";
 
 <html lang="vi">
 	<head>
-		<Basehead title={`QuynhBio - ${ translate('nav.about') }`} />
+		<Basehead title={`QuynhBio - ${translate("nav.about")}`} />
 		<meta name="generator" content={Astro.generator} />
 	</head>
 
@@ -26,7 +26,12 @@ const heroImageAlt = "The Banner Image of the About Page";
 		<div class="w-full h-svh">
 			<Navbar location={page} />
 
-			<HeroAbout heroImage={heroImage} firstWord="Mỹ Phẩm" secondWord="Quỳnh Bio" wordOrder={getWordOrder(lang)} />
+			<HeroAbout
+				heroImage={heroImage}
+				firstWord="Mỹ Phẩm"
+				secondWord="Quỳnh Bio"
+				wordOrder={getWordOrder(lang)}
+			/>
 
 			<div class="w-full px-8 py-10 flex items-center justify-center">
 				<div
@@ -42,31 +47,106 @@ const heroImageAlt = "The Banner Image of the About Page";
 						</h2>
 
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing
-							elit, sed do eiusmod tempor incididunt ut labore et
-							dolore magnam aliquam quaerat voluptatem. Ut enim
-							aeque doleamus animo, cum corpore dolemus, fieri
-							tamen permagna accessio potest, si aliquod aeternum
-							et infinitum impendere malum nobis opinemur.
+							Chào mừng bạn đến với Mỹ Phẩm Quỳnh Bio, điểm đến
+							hàng đầu cho các giải pháp về làm đẹp và mỹ phẩm tại
+							Việt Nam. Mỹ Phẩm Quỳnh Bio được thành lập và điều
+							hành bởi Nguyễn Thị Như Quỳnh, là một doanh nghiệp
+							với quy mô cá nhân, chuyên cung cấp các sản phẩm
+							chăm sóc da cao cấp và dịch vụ cá nhân hóa.
 						</p>
 						<p>
-							Ullus investigandi veri, nisi inveneris, et
-							quaerendi defatigatio turpis est, cum esset accusata
-							et vituperata ab Hortensio. Qui liber cum et mortem
-							contemnit, qua qui est imbutus quietus esse numquam
-							potest. Praeterea bona praeterita grata recordatione
-							renovata delectant. Est autem situm in nobis ut et
-							voluptates et dolores nasci fatemur e corporis
-							voluptatibus et doloribus -- itaque concedo, quod
-							modo dicebas, cadere causa, si qui incurrunt,
-							numquam.
+							Là một doanh nghiệp quy mô nhỏ, chúng tôi tự hào về
+							việc mang đến sự chăm sóc cá nhân cho mỗi khách
+							hàng. Với đam mê về làm đẹp và cam kết về sự hài
+							lòng của khách hàng, Mỹ Phẩm Quỳnh Bio mong muốn
+							mang đến cho mọi người cơ hội tự tin và rạng rỡ từ
+							bên trong và bên ngoài.
 						</p>
+
+						<h3>Các Dịch Vụ của Chúng Tôi</h3>
 						<p>
-							Ullus investigandi veri, nisi inveneris, et
-							quaerendi defatigatio turpis est, cum esset accusata
-							et vituperata ab Hortensio. Qui liber cum et mortem
-							contemnit, qua qui est imbutus quietus esse numquam
-							potest. Praeterea bona praeterita grata.
+							<ol>
+								<li>
+									<strong>Phân phối sản phẩm:</strong>
+									<p>
+										Chúng tôi tự hào là đại lý phân phối của
+										các sản phẩm chăm sóc da cao cấp từ các
+										thương hiệu uy tín như Faena, Dr. Lacir,
+										YLABCOS và PK Pharma. Sự lựa chọn cẩn
+										thận của chúng tôi đảm bảo rằng bạn có
+										thể tiếp cận với những sản phẩm tốt nhất
+										trên thị trường.
+									</p>
+								</li>
+
+								<li>
+									<strong>Tư vấn sản phẩm:</strong>
+									<p>
+										Bạn không chắc chắn sản phẩm nào phù hợp
+										với bạn? Chúng tôi luôn sẵn lòng cung
+										cấp các cuộc tư vấn sản phẩm cá nhân để
+										giải quyết những vấn đề cụ thể về da và
+										mục tiêu của bạn. Chúng tôi sẽ cùng bạn
+										tạo ra một chế độ chăm sóc da cá nhân
+										hóa phù hợp với nhu cầu đặc biệt của
+										bạn.
+									</p>
+								</li>
+
+								<li>
+									<strong>Dịch vụ chăm sóc da:</strong>
+									<p>
+										Nâng cao chế độ chăm sóc da của bạn với
+										dịch vụ chăm sóc da chuyên nghiệp của
+										chúng tôi. Từ các liệu pháp làm mới da
+										đến các liệu pháp chăm sóc mục tiêu,
+										chuyên gia chăm sóc da của chúng tôi sẵn
+										sàng giúp bạn có làn da sáng mịn và khỏe
+										mạnh.
+									</p>
+								</li>
+							</ol>
+						</p>
+
+						<h3>Kết nối với Chúng Tôi:</h3>
+						<p>
+							Luôn cập nhật với Mỹ Phẩm Quỳnh Bio để nhận thông
+							tin mới nhất, mẹo chăm sóc da và các ưu đãi độc
+							quyền:
+
+							<ul>
+								<li>
+									<p>
+										Theo dõi chúng tôi trên Facebook để nhận
+										thông tin hàng ngày về làm đẹp và tin
+										tức.
+									</p>
+								</li>
+								<li>
+									<p>
+										Liên hệ với chúng tôi qua Zalo để được
+										hỗ trợ cá nhân và tư vấn sản phẩm.
+									</p>
+								</li>
+							</ul>
+						</p>
+
+						<h3>Mua Sắm với Sự Tự Tin:</h3>
+						<p>
+							Khám phá danh mục sản phẩm được chọn lọc của chúng
+							tôi và dịch vụ chăm sóc da chuyên nghiệp trên nền
+							tảng thương mại điện tử chính của chúng tôi, Shopee.
+							Với các phương thức thanh toán an toàn và dịch vụ
+							giao hàng đáng tin cậy, mua sắm tại Mỹ Phẩm Quỳnh
+							Bio sẽ dễ dàng và không có phiền toái.
+						</p>
+
+						<hr>
+						<p>
+							Cảm ơn bạn đã lựa chọn Mỹ Phẩm Quỳnh Bio làm đối tác
+							tin cậy của bạn trong lĩnh vực làm đẹp và chăm sóc
+							da. Chúng tôi rất hân hạnh được hành trình này cùng
+							bạn hướng đến làn da khỏe mạnh và hạnh phúc.
 						</p>
 					</section>
 				</div>
