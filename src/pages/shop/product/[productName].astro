@@ -3,14 +3,14 @@ export const prerender = false;
 
 import { marked } from 'marked';
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { getLangFromUrl, useTranslations } from "../../i18n/utils";
-import { getProductByName } from "../../scripts/databaseUtils";
-import { getOriginalForm } from '../../scripts/routingUtils';
+import { getLangFromUrl, useTranslations } from "../../../i18n/utils";
+import { getProductByName } from "../../../scripts/databaseUtils";
+import { getOriginalForm } from '../../../scripts/routingUtils';
 
-import Basehead from "../../components/shared/basehead.astro";
-import Navbar from "../../components/shared/navbar.astro";
-import ProductPage from "../../components/shop/product_page.vue";
-import Footer from "../../components/shared/footer.astro";
+import Basehead from "../../../components/shared/basehead.astro";
+import Navbar from "../../../components/shared/navbar.astro";
+import ProductPage from "../../../components/shop/product_page.vue";
+import Footer from "../../../components/shared/footer.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const translate = useTranslations(lang);
