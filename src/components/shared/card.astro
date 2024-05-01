@@ -19,10 +19,10 @@ const translate = useTranslations(lang);
 		class="flex flex-row lg:flex-col size-full rounded-xl"
 	>
 		<div
-			class="hidden 3xs:block relative w-full aspect-auto 2xs:aspect-square bg-contain bg-center bg-stone-700 rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl"
+			class="hidden 3xs:block relative w-full aspect-square bg-contain bg-center bg-stone-700 rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl"
 		>
 			<div
-				class="w-full aspect-auto 2xs:aspect-square object-cover rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl bg-orange-300 dark:bg-stone-800"
+				class="w-full h-full lg:h-auto aspect-auto lg:aspect-square object-cover rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl bg-orange-300 dark:bg-stone-800"
 			>
 				{
 					product.media && (
@@ -35,7 +35,7 @@ const translate = useTranslations(lang);
 				}
 				{
 					!product.media && (
-						<div class="h-full aspect-square flex flex-col items-center justify-center">
+						<div class="w-full h-full lg:h-auto lg:aspect-square flex flex-col items-center justify-center">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="25%"
@@ -55,7 +55,7 @@ const translate = useTranslations(lang);
 			</div>
 
 			<div
-				class="hidden group-hover:block absolute w-full aspect-auto 2xs:aspect-square top-0 rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl group-hover:bg-stone-800 group-hover:opacity-50"
+				class="hidden group-hover:block absolute w-full h-full lg:h-auto aspect-auto lg:aspect-square top-0 rounded-l-xl lg:rounded-bl-none lg:rounded-t-xl group-hover:bg-stone-800 group-hover:opacity-50"
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +80,7 @@ const translate = useTranslations(lang);
 			class="w-full p-4 lg:p-3.5 grow flex flex-col items-start justify-center text-left"
 		>
 			<h3
-				class="font-bold mt-2 text-lg xs:text-2xl lg:text-xl text-pretty"
+				class="lg:grow font-bold mt-2 text-lg xs:text-2xl lg:text-xl text-pretty"
 			>
 				{product.name}
 			</h3>
