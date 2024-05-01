@@ -2,7 +2,7 @@ import { db, or, eq, asc, desc } from 'astro:db';
 import { Product, ProductCategories } from 'astro:db';
 
 export async function retrieveCategories() {
-	return db.select().from(ProductCategories);
+	return db.select().from(ProductCategories).orderBy(asc(ProductCategories.category));
 }
 
 export async function getProductByName(name: string) {
