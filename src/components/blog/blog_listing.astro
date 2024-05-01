@@ -68,7 +68,7 @@ const translate = useTranslations(lang);
 										{post.data.title}
 									</h3>
 									<p class="italic">
-										By {post.data.author} -{" "}
+										{ translate("blog.post.by") } {post.data.author} -{" "}
 										<time
 											datetime={post.data.date.toLocaleString()}
 										>
