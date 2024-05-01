@@ -17,6 +17,18 @@ const asideCloseButton = ref(null);
 const asideOpenButton = ref(null);
 const productGridLabel = ref(null);
 
+const filterForm = ref(null);
+const filterFormSubmitButton = ref(null);
+const firstPageButton = ref(null);
+const prevPageButton = ref(null);
+const nextPageButton = ref(null);
+const lastPageButton = ref(null);
+
+function postToPage(pageUrl) {
+	filterForm.value.action = getRelativeLocaleUrl(lang, pageUrl, { prependWith: "shop"});
+	filterForm.value.submit();
+}
+
 onMounted(() => {
 	asideCloseButton.value.addEventListener("click", () => {
 		aside.value.classList.toggle("hidden");
@@ -25,6 +37,14 @@ onMounted(() => {
 	asideOpenButton.value.addEventListener("click", () => {
 		aside.value.classList.toggle("hidden");
 	});
+
+	filterFormSubmitButton.value.addEventListener("click", () => { postToPage(firstPage); });
+	if (formMethod === "POST") {
+		firstPageButton.value.addEventListener("click", () => { postToPage(firstPage) });
+		prevPageButton.value.addEventListener("click", () => { postToPage(previousPage) });
+		nextPageButton.value.addEventListener("click", () => { postToPage(nextPage) });
+		lastPageButton.value.addEventListener("click", () => { postToPage(lastPage) });
+	}
 });
 </script>
 
@@ -59,7 +79,7 @@ onMounted(() => {
 				</div>
 				<hr class="border-stone-800 dark:border-orange-100 my-5 px-3.5">
 
-				<form method="POST">
+				<form ref="filterForm" method="POST">
 					<fieldset class="accent-red-400 dark:accent-red-400 mb-5">
 						<legend class="text-lg font-semibold mb-1">{{ translate('shop.filterForm.sortBy') }}</legend>
 
@@ -87,7 +107,7 @@ onMounted(() => {
 					</fieldset>
 
 					<div class="w-full flex items-center justify-center mb-0 md:mb-5">
-						<button type="submit"
+						<button ref="filterFormSubmitButton" type="submit"
 							class="px-3.5 py-2.5 rounded-md bg-orange-200 hover:bg-red-300 dark:bg-stone-700 dark:hover:bg-red-400">{{
 								translate('shop.filterForm.viewResults') }}</button>
 					</div>
@@ -194,6 +214,42 @@ onMounted(() => {
 						d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.753l-6.267 3.636c-.54.313-1.233-.066-1.233-.697v-2.94l-6.267 3.636C.693 12.703 0 12.324 0 11.693V4.308c0-.63.693-1.01 1.233-.696L7.5 7.248v-2.94c0-.63.693-1.01 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5" />
 				</svg>
 			</a>
+
+			<button ref="firstPageButton" v-if="formMethod === 'POST'" :class="{ invisible: !previousPage || currentPage === firstPage }" class="order-first self-stretch aspect-square mr-2 flex items-center justify-center">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
+					class="bi bi-skip-backward-fill fill-stone-800 dark:fill-orange-100" viewBox="0 0 16 16">
+					<path
+						d="M.5 3.5A.5.5 0 0 0 0 4v8a.5.5 0 0 0 1 0V8.753l6.267 3.636c.54.313 1.233-.066 1.233-.697v-2.94l6.267 3.636c.54.314 1.233-.065 1.233-.696V4.308c0-.63-.693-1.01-1.233-.696L8.5 7.248v-2.94c0-.63-.692-1.01-1.233-.696L1 7.248V4a.5.5 0 0 0-.5-.5" />
+				</svg>
+			</button>
+			<button ref="prevPageButton" v-if="formMethod === 'POST'"
+				:class="{ invisible: !previousPage }"
+				class="order-2 self-stretch aspect-square mr-2 flex items-center justify-center">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
+					class="bi bi-skip-start-fill fill-stone-800 dark:fill-orange-100" viewBox="0 0 16 16">
+					<path
+						d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.54-.313 1.232.066 1.232.696v7.384c0 .63-.692 1.01-1.232.697L5 8.753V12a.5.5 0 0 1-1 0z" />
+				</svg>
+			</button>
+			<button ref="nextPageButton" v-if="formMethod === 'POST'"
+				:class="{ invisible: !nextPage }"
+				class="order-4 self-stretch aspect-square ml-2 flex items-center justify-center">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
+					class="bi bi-skip-end-fill fill-stone-800 dark:fill-orange-100" viewBox="0 0 16 16">
+					<path
+						d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.693 3.3 4 3.678 4 4.308v7.384c0 .63.692 1.01 1.233.697L11.5 8.753V12a.5.5 0 0 0 1 0z" />
+				</svg>
+			</button>
+			<button ref="lastPageButton" v-if="formMethod === 'POST'"
+				:class="{ invisible: !nextPage || currentPage === lastPage }"
+				class="order-last self-stretch aspect-square ml-2 flex items-center justify-center">
+
+				<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
+					class="bi bi-skip-forward-fill fill-stone-800 dark:fill-orange-100" viewBox="0 0 16 16">
+					<path
+						d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.753l-6.267 3.636c-.54.313-1.233-.066-1.233-.697v-2.94l-6.267 3.636C.693 12.703 0 12.324 0 11.693V4.308c0-.63.693-1.01 1.233-.696L7.5 7.248v-2.94c0-.63.693-1.01 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5" />
+				</svg>
+			</button>
 
 			<p class="order-3 px-5 py-2.5 rounded-full font-semibold text-lg bg-orange-200 dark:bg-stone-700">{{
 				currentPage }}
