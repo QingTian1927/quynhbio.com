@@ -20,7 +20,9 @@
     "sharp": "^0.33.3",
     "tailwindcss": "^3.4.3",
     "vite": "^5.2.10",
-    "vue": "^3.4.21",
-    "@tailwindcss/typography": "^0.5.12"
+    "vue": "^3.4.21"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.13"
   }
 }
