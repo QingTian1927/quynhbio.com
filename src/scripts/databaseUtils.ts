@@ -1,8 +1,11 @@
-import { db, or, eq, asc, desc, count } from 'astro:db';
-import { Product, ProductCategories } from 'astro:db';
+import { db, or, eq, asc, desc, count } from "astro:db";
+import { Product, ProductCategories } from "astro:db";
 
 export async function retrieveCategories() {
-	return db.select().from(ProductCategories).orderBy(asc(ProductCategories.category));
+	return db
+		.select()
+		.from(ProductCategories)
+		.orderBy(asc(ProductCategories.category));
 }
 
 export async function getTotalNumbersOfProducts() {
@@ -11,24 +14,33 @@ export async function getTotalNumbersOfProducts() {
 }
 
 export async function getProductByName(name: string) {
-	if (!name) { return []; }
+	if (!name) {
+		return [];
+	}
 	return await db.select().from(Product).where(eq(Product.name, name));
 }
 
 export async function getProductById(id: number) {
-	if (!id) { return []; }
+	if (!id) {
+		return [];
+	}
 	return await db.select().from(Product).where(eq(Product.id, id));
 }
 
 export const DEFAULT_PAGE_SIZE = 24;
 
-export function getPageOffset(pageNumber: number, pageSize: number = DEFAULT_PAGE_SIZE) {
+export function getPageOffset(
+	pageNumber: number,
+	pageSize: number = DEFAULT_PAGE_SIZE
+) {
 	if (
 		pageNumber <= 0 ||
 		pageSize <= 0 ||
 		pageNumber === undefined ||
-		pageSize || undefined
-	) { return undefined; }
+		pageSize === undefined
+	) {
+		return undefined;
+	}
 
 	// Converts from 1-based indexing to 0-based indexing and
 	// then calculating the offset.
@@ -39,9 +51,9 @@ export function getPageOffset(pageNumber: number, pageSize: number = DEFAULT_PAG
 
 export function getProductSortKey(column: string, order: string) {
 	const orderMapping = {
-		"asc": (col) => asc(col),
-		"desc": (col) => desc(col),
-	}
+		asc: (col) => asc(col),
+		desc: (col) => desc(col),
+	};
 
 	if (orderMapping[order] !== undefined) {
 		return () => orderMapping[order](Product[column]);
@@ -51,49 +63,53 @@ export function getProductSortKey(column: string, order: string) {
 
 export interface sortKeyMapping {
 	[sortOrder: string]: {
-		sortKey: Function,
-		label: any,
-	},
+		sortKey: Function;
+		label: any;
+	};
 }
 export interface queryProductsOptions {
-	sortKeyMapping: sortKeyMapping,
-	order: FormDataEntryValue,
-	filters: FormDataEntryValue[],
+	sortKeyMapping: sortKeyMapping;
+	order: FormDataEntryValue;
+	filters: FormDataEntryValue[];
 }
 
 export type partialSelectFields = {
-	[field: string]: typeof Product[keyof typeof Product];
+	[field: string]: (typeof Product)[keyof typeof Product];
 };
 
-export async function selectAllProductColumns() {
+export function selectAllProductColumns() {
 	const fields = {};
-	Object.keys(Product).map((key) => { fields[key] = Product[key]; })
+	Object.keys(Product).map((key) => {
+		fields[key] = Product[key];
+	});
 	return fields;
 }
 
 export function handleQueryOptions(options: queryProductsOptions) {
 	const parsedOptions = {
 		sortKey: asc(Product.id),
-		filterKeys: undefined
+		filterKeys: undefined,
 	};
 
 	const { sortKeyMapping, filters } = options;
 	const order = options.order.toString();
 
-	const cannotGetSortOrder = (
+	const cannotGetSortOrder =
 		order === undefined ||
 		sortKeyMapping === undefined ||
 		sortKeyMapping[order] === undefined ||
-		sortKeyMapping[order].sortKey === undefined
-	);
-	parsedOptions.sortKey = (cannotGetSortOrder) ? "" : sortKeyMapping[order].sortKey();
+		sortKeyMapping[order].sortKey === undefined;
+	parsedOptions.sortKey = cannotGetSortOrder
+		? ""
+		: sortKeyMapping[order].sortKey();
 
-	const cannotGetProductFilters = filters.length <= 0 || filters[0] === "" || filters === undefined;
+	const cannotGetProductFilters =
+		filters.length <= 0 || filters[0] === "" || filters === undefined;
 	if (cannotGetProductFilters) {
 		parsedOptions["filterKeys"] = undefined;
-	}
-	else {
-		parsedOptions["filterKeys"] = () => filters.map((filter) => eq(Product.category, filter.toString()));
+	} else {
+		parsedOptions["filterKeys"] = () =>
+			filters.map((filter) => eq(Product.category, filter.toString()));
 	}
 
 	return parsedOptions;
@@ -106,10 +122,17 @@ export async function queryAllProducts(
 	if (pageNumber === undefined || pageSize === undefined) {
 		return db.select().from(Product).orderBy(asc(Product.category));
 	}
-	if (pageNumber <= 0 || pageSize <= 0) { return undefined; }
+	if (pageNumber <= 0 || pageSize <= 0) {
+		return undefined;
+	}
 
 	const offset = getPageOffset(pageNumber, pageSize);
-	return db.select().from(Product).limit(pageSize).offset(offset).orderBy(asc(Product.category));
+	return db
+		.select()
+		.from(Product)
+		.limit(pageSize)
+		.offset(offset)
+		.orderBy(asc(Product.category));
 }
 
 export async function queryProducts(
@@ -118,22 +141,62 @@ export async function queryProducts(
 	pageNumber: number = undefined,
 	pageSize: number = DEFAULT_PAGE_SIZE
 ) {
-	const invalidPageOptions = (pageNumber !== undefined && pageNumber <= 0 || pageSize <= 0);
-	if (invalidPageOptions) { return undefined; }
+	const invalidPageOptions =
+		(pageNumber !== undefined && pageNumber <= 0) || pageSize <= 0;
+	if (invalidPageOptions) {
+		return undefined;
+	}
 
-	const partials = (fields) ? fields : await selectAllProductColumns();
+	if (!options) {
+		return queryAllProducts(pageNumber, pageSize);
+	}
+
+	const partials = fields ? fields : selectAllProductColumns();
 	const { sortKey, filterKeys } = handleQueryOptions(options);
 
 	if (pageNumber === undefined) {
 		if (!filterKeys) {
 			return db.select(partials).from(Product).orderBy(sortKey);
 		}
-		return db.select(partials).from(Product).where(or(...filterKeys())).orderBy(sortKey);
+		return db
+			.select(partials)
+			.from(Product)
+			.where(or(...filterKeys()))
+			.orderBy(sortKey);
 	}
 
 	const offset = getPageOffset(pageNumber, pageSize);
 	if (!filterKeys) {
-		return db.select(partials).from(Product).limit(pageSize).offset(offset).orderBy(sortKey);
+		return db
+			.select(partials)
+			.from(Product)
+			.limit(pageSize)
+			.offset(offset)
+			.orderBy(sortKey);
 	}
-	return db.select(partials).from(Product).where(or(...filterKeys())).limit(pageSize).offset(offset).orderBy(sortKey);
+	return db
+		.select(partials)
+		.from(Product)
+		.where(or(...filterKeys()))
+		.limit(pageSize)
+		.offset(offset)
+		.orderBy(sortKey);
+}
+
+export async function countAllMatchingRows(
+	options: queryProductsOptions = undefined
+) {
+	let result = [{length: undefined}];
+
+	if (!options) {
+		result = await db.select({ length: count(Product.id) }).from(Product);
+	} else {
+		const { filterKeys } = handleQueryOptions(options);
+
+		result = filterKeys
+			? await db.select({ length: count(or(...filterKeys())) }).from(Product)
+			: await db.select({ length: count(Product.id) }).from(Product);
+	}
+
+	return result[0].length;
 }

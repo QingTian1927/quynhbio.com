@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import { Product } from "astro:db";
+import { getRelativeLocaleUrl } from "astro:i18n";
 
 import Basehead from "../../components/shared/basehead.astro";
 import Navbar from "../../components/shared/navbar.astro";
@@ -17,6 +18,7 @@ import {
 	retrieveCategories,
 	queryProducts,
 	getProductSortKey,
+	countAllMatchingRows,
 } from "../../scripts/databaseUtils";
 
 const location = "Shop";
@@ -85,9 +87,15 @@ const { slug } = Astro.params;
 if (slug === undefined) {
 	throw new Error("Shop pagination [slug] is undefined");
 }
+const redirect404 = () => Astro.redirect(getRelativeLocaleUrl(lang, "404"));
 
 const pageSize = DEFAULT_PAGE_SIZE;
 const pageNumber = Number(slug);
+
+if (Number.isNaN(pageNumber) || pageNumber <= 0) { redirect404(); }
+
+const numberOfPages = Math.ceil((await countAllMatchingRows()) / pageSize);
+if (pageNumber > numberOfPages) { redirect404(); }
 
 const categories = await retrieveCategories();
 const products = await queryProducts(
@@ -96,11 +104,6 @@ const products = await queryProducts(
 	pageNumber,
 	pageSize,
 );
-const numberOfPages = Math.ceil(products.length / pageSize);
-
-if (Number.isNaN(pageNumber) || pageNumber <= 0 || pageNumber > numberOfPages) {
-	return Astro.redirect(getAbsoluteLocaleUrl(lang, "404"));
-}
 
 const productPage = {
 	formMethod: Astro.request.method,
@@ -113,7 +116,7 @@ const productPage = {
 	previousPage: pageNumber === 1 ? undefined : `${pageNumber - 1}`,
 	currentPage: pageNumber.toString(),
 	nextPage:
-		pageNumber === numberOfPages || numberOfPages <= 1
+		pageNumber === numberOfPages || products.length < pageSize
 			? undefined
 			: `${pageNumber + 1}`,
 	lastPage: numberOfPages.toString(),
