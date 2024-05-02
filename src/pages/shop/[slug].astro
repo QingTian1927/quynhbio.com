@@ -1,5 +1,6 @@
 ---
 export const prerender = false;
+import { Product } from 'astro:db';
 
 import Basehead from "../../components/shared/basehead.astro";
 import Navbar from "../../components/shared/navbar.astro";
@@ -8,11 +9,15 @@ import ProductGrid from "../../components/shop/product_grid.vue";
 import Footer from "../../components/shared/footer.astro";
 
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
-import { chunkArray } from "../../scripts/routingUtils";
 import {
+	type sortKeyMapping,
+	type queryProductsOptions,
+	type partialSelectFields,
+	DEFAULT_PAGE_SIZE,
 	retrieveCategories,
 	queryProducts,
 	getProductSortKey,
+	getTotalNumbersOfProducts,
 } from "../../scripts/databaseUtils";
 
 const location = "Shop";
@@ -24,7 +29,7 @@ async function parseFormData() {
 		return {
 			method: "GET",
 			order: "category_asc",
-			filter: [""]
+			filters: [""]
 		};
 	}
 
@@ -32,7 +37,7 @@ async function parseFormData() {
 	return {
 		method: "POST",
 		order: formData.get("order"),
-		filter: formData.getAll("filter"),
+		filters: formData.getAll("filter"),
 	};
 }
 const formData = await parseFormData();
@@ -62,41 +67,48 @@ const sortKeyMapping = {
 		sortKey: getProductSortKey("price", "desc"),
 		label: translate("shop.filterForm.priceDesc"),
 	},
-};
+} satisfies sortKeyMapping;
 
-const categories = await retrieveCategories();
-const products = await queryProducts(
-	sortKeyMapping,
-	formData.order,
-	formData.filter,
-);
+const queryOptions = {
+	sortKeyMapping: sortKeyMapping,
+	order: formData.order,
+	filters: formData.filters
+} satisfies queryProductsOptions;
 
-const pageSize = 24;
-const pages = (chunkArray(products, pageSize)).map((value, index) => {
-	const numberOfPages = Math.ceil(products.length / pageSize);
-	const pageIndex = index + 1;
+const selectedColumns = {
+	name: Product.name,
+	category: Product.category,
+	price: Product.price,
+	media: Product.media
+} satisfies partialSelectFields;
 
-	// 1-based indexing (as opposed to 0-based indexing)
-	return {
-		formMethod: Astro.request.method,
-		catalogue: { categories: categories, products: value },
-
-		firstPage: '1',
-		previousPage: (pageIndex === 1) ? undefined : `${pageIndex - 1}`,
-		currentPage: `${pageIndex}`,
-		nextPage: (pageIndex === numberOfPages) ? undefined : `${pageIndex + 1}`,
-		lastPage: numberOfPages.toString(),
-	};
-});
+const pageSize = DEFAULT_PAGE_SIZE;
 
 const { slug } = Astro.params;
 if (slug === undefined) {
 	throw new Error("Shop pagination [slug] is undefined");
 }
 
-const productPage = pages.find((page) => page.currentPage === slug);
-if (!productPage) {
+const pageNumber = Number(slug);
+const numberOfPages = Math.ceil((await getTotalNumbersOfProducts()) / pageSize);
+const products = await queryProducts(queryOptions, selectedColumns,  pageNumber, pageSize);
+
+if (Number.isNaN(pageNumber) || pageNumber <= 0 || pageNumber > numberOfPages) {
 	return Astro.redirect(getAbsoluteLocaleUrl(lang, "404"));
+}
+
+const productPage = {
+	formMethod: Astro.request.method,
+	catalogue: {
+		categories: await retrieveCategories(),
+		products: await queryProducts(queryOptions, selectedColumns,  pageNumber, pageSize),
+	},
+
+	firstPage: '1',
+	previousPage: (pageNumber === 1) ? undefined : `${pageNumber - 1}`,
+	currentPage: pageNumber.toString(),
+	nextPage: (pageNumber === numberOfPages) ? undefined : `${pageNumber + 1}`,
+	lastPage: numberOfPages.toString(),
 }
 ---
 
