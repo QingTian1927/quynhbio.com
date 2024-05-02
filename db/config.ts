@@ -25,7 +25,7 @@ const Product = defineTable({
     media: column.json({ optional: true }),
   },
   indexes: [
-    { on: ["id", "name", "price"], unique: true },
+    { on: ["id", "name", "price", "category"], unique: true },
   ],
 });
 
