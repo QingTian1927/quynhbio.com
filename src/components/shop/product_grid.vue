@@ -6,7 +6,7 @@ import { useTranslations } from '../../i18n/utils';
 import { getLinkForm } from '../../scripts/routingUtils';
 
 const props = defineProps(['formData', 'sortKeyMapping', 'productPage', 'lang']);
-const { order, filter } = props.formData;
+const { order, filters } = props.formData;
 const { formMethod, catalogue, firstPage, previousPage, currentPage, nextPage, lastPage } = props.productPage;
 
 const { lang } = props;
@@ -98,7 +98,7 @@ onMounted(() => {
 
 						<p v-for="({ category, translations }, index) in catalogue.categories">
 							<input type="checkbox" name="filter"
-								v-bind="{ id: `filter_${index}`, value: category, checked: filter.includes(category) }"
+								v-bind="{ id: `filter_${index}`, value: category, checked: filters.includes(category) }"
 								class="mr-2" />
 							<label v-if="lang === defaultLang" for={{ `filter_${index}` }}>{{ category }}</label>
 							<label v-else for={{ `filter_${index}` }}>{{ (translations && translations[lang]) ?
@@ -136,7 +136,7 @@ onMounted(() => {
 
 								<p
 									class="mt-1 text-xs xs:text-base text-stone-800/50 dark:text-orange-200/50 text-center">
-									No image available</p>
+									{{ translate('image.fallback.text') }}</p>
 							</div>
 
 							<img v-else :src="product.media.thumbnail.src" :alt="product.media.thumbnail.alt"
