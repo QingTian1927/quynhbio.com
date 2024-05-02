@@ -1,6 +1,6 @@
 ---
 export const prerender = false;
-import { Product } from 'astro:db';
+import { Product } from "astro:db";
 
 import Basehead from "../../components/shared/basehead.astro";
 import Navbar from "../../components/shared/navbar.astro";
@@ -17,7 +17,6 @@ import {
 	retrieveCategories,
 	queryProducts,
 	getProductSortKey,
-	getTotalNumbersOfProducts,
 } from "../../scripts/databaseUtils";
 
 const location = "Shop";
@@ -29,7 +28,7 @@ async function parseFormData() {
 		return {
 			method: "GET",
 			order: "category_asc",
-			filters: [""]
+			filters: [""],
 		};
 	}
 
@@ -72,26 +71,32 @@ const sortKeyMapping = {
 const queryOptions = {
 	sortKeyMapping: sortKeyMapping,
 	order: formData.order,
-	filters: formData.filters
+	filters: formData.filters,
 } satisfies queryProductsOptions;
 
 const selectedColumns = {
 	name: Product.name,
 	category: Product.category,
 	price: Product.price,
-	media: Product.media
+	media: Product.media,
 } satisfies partialSelectFields;
-
-const pageSize = DEFAULT_PAGE_SIZE;
 
 const { slug } = Astro.params;
 if (slug === undefined) {
 	throw new Error("Shop pagination [slug] is undefined");
 }
 
+const pageSize = DEFAULT_PAGE_SIZE;
 const pageNumber = Number(slug);
-const numberOfPages = Math.ceil((await getTotalNumbersOfProducts()) / pageSize);
-const products = await queryProducts(queryOptions, selectedColumns,  pageNumber, pageSize);
+
+const categories = await retrieveCategories();
+const products = await queryProducts(
+	queryOptions,
+	selectedColumns,
+	pageNumber,
+	pageSize,
+);
+const numberOfPages = Math.ceil(products.length / pageSize);
 
 if (Number.isNaN(pageNumber) || pageNumber <= 0 || pageNumber > numberOfPages) {
 	return Astro.redirect(getAbsoluteLocaleUrl(lang, "404"));
@@ -100,16 +105,19 @@ if (Number.isNaN(pageNumber) || pageNumber <= 0 || pageNumber > numberOfPages) {
 const productPage = {
 	formMethod: Astro.request.method,
 	catalogue: {
-		categories: await retrieveCategories(),
-		products: await queryProducts(queryOptions, selectedColumns,  pageNumber, pageSize),
+		categories: categories,
+		products: products
 	},
 
-	firstPage: '1',
-	previousPage: (pageNumber === 1) ? undefined : `${pageNumber - 1}`,
+	firstPage: "1",
+	previousPage: pageNumber === 1 ? undefined : `${pageNumber - 1}`,
 	currentPage: pageNumber.toString(),
-	nextPage: (pageNumber === numberOfPages) ? undefined : `${pageNumber + 1}`,
+	nextPage:
+		pageNumber === numberOfPages || numberOfPages <= 1
+			? undefined
+			: `${pageNumber + 1}`,
 	lastPage: numberOfPages.toString(),
-}
+};
 ---
 
 <html lang={lang}>
