@@ -19,6 +19,7 @@ export const ui = {
 		'nav.about': 'About',
 		'nav.contact': 'Contact',
 
+		'image.fallback.subtitle': 'No image available',
 		'faqs.title': 'Frequently Asked Questions',
 
 		'footer.copyright': `Copyright © ${currentYear} QuynhBio. All rights reserved.`,
@@ -30,7 +31,7 @@ export const ui = {
 		'home.hero.title.beautiful': 'beautiful',
 		'home.hero.title.preBreak': ' ',
 		'home.hero.title.secondHalf': 'with Quỳnh Bio',
-		'home.hero.subtitle': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat.',
+		'home.hero.subtitle': "Discover the Power of Nature's Ingredients: Reveal Your True Beauty with Quỳnh Bio",
 		'home.hero.shop-now': 'Shop Now',
 		'home.hero.contact-us': 'Contact Us',
 		'home.featured-products': 'Featured Products',
@@ -79,6 +80,7 @@ export const ui = {
 		'nav.about': 'Giới Thiệu',
 		'nav.contact': 'Liên Hệ',
 
+		'image.fallback.text': 'Không có hình ảnh',
 		'faqs.title': 'Câu Hỏi Thường Gặp',
 
 		'footer.copyright': `Bản quyền © ${currentYear} QuynhBio. Mọi quyền được bảo lưu.`,
@@ -90,7 +92,7 @@ export const ui = {
 		'home.hero.title.beautiful': 'xinh đẹp',
 		'home.hero.title.preBreak': 'hơn',
 		'home.hero.title.secondHalf': 'với Quỳnh Bio',
-		'home.hero.subtitle': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magnam aliquam quaerat.',
+		'home.hero.subtitle': 'Khám phá sức mạnh của các thành phần từ thiên nhiên: Bộc lộ vẻ đẹp thật sự của bạn với Quỳnh Bio',
 		'home.hero.shop-now': 'Mua Hàng Ngay',
 		'home.hero.contact-us': 'Liên hệ với chúng tôi',
 		'home.featured-products': 'Sản Phẩm Nổi Bật',
