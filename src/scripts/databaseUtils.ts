@@ -1,8 +1,13 @@
-import { db, or, eq, asc, desc } from 'astro:db';
+import { db, or, eq, asc, desc, count } from 'astro:db';
 import { Product, ProductCategories } from 'astro:db';
 
 export async function retrieveCategories() {
 	return db.select().from(ProductCategories).orderBy(asc(ProductCategories.category));
+}
+
+export async function getTotalNumbersOfProducts() {
+	const result = await db.select({ value: count(Product.id) }).from(Product);
+	return result[0].value;
 }
 
 export async function getProductByName(name: string) {
@@ -13,6 +18,23 @@ export async function getProductByName(name: string) {
 export async function getProductById(id: number) {
 	if (!id) { return []; }
 	return await db.select().from(Product).where(eq(Product.id, id));
+}
+
+export const DEFAULT_PAGE_SIZE = 24;
+
+export function getPageOffset(pageNumber: number, pageSize: number = DEFAULT_PAGE_SIZE) {
+	if (
+		pageNumber <= 0 ||
+		pageSize <= 0 ||
+		pageNumber === undefined ||
+		pageSize || undefined
+	) { return undefined; }
+
+	// Converts from 1-based indexing to 0-based indexing and
+	// then calculating the offset.
+
+	const offset = (pageNumber - 1) * pageSize;
+	return offset;
 }
 
 export function getProductSortKey(column: string, order: string) {
@@ -27,25 +49,91 @@ export function getProductSortKey(column: string, order: string) {
 	return () => "";
 }
 
-// TODO: specify type.
+export interface sortKeyMapping {
+	[sortOrder: string]: {
+		sortKey: Function,
+		label: any,
+	},
+}
+export interface queryProductsOptions {
+	sortKeyMapping: sortKeyMapping,
+	order: FormDataEntryValue,
+	filters: FormDataEntryValue[],
+}
 
-export async function queryProducts(sortKeyMapping = undefined, order = undefined, filters = undefined) {
-	if (!sortKeyMapping && !order && !filters) {
-		return db.select().from(Product).orderBy(asc(Product.category));
-	}
+export type partialSelectFields = {
+	[field: string]: typeof Product[keyof typeof Product];
+};
 
-	const cannotRetrieveKey = (
+export async function selectAllProductColumns() {
+	const fields = {};
+	Object.keys(Product).map((key) => { fields[key] = Product[key]; })
+	return fields;
+}
+
+export function handleQueryOptions(options: queryProductsOptions) {
+	const parsedOptions = {
+		sortKey: asc(Product.id),
+		filterKeys: undefined
+	};
+
+	const { sortKeyMapping, filters } = options;
+	const order = options.order.toString();
+
+	const cannotGetSortOrder = (
 		order === undefined ||
 		sortKeyMapping === undefined ||
 		sortKeyMapping[order] === undefined ||
 		sortKeyMapping[order].sortKey === undefined
 	);
-	const sortKey = (cannotRetrieveKey) ? '' : sortKeyMapping[order].sortKey();
+	parsedOptions.sortKey = (cannotGetSortOrder) ? "" : sortKeyMapping[order].sortKey();
 
-	if (filters.length <= 0 || filters[0] === "" || filters === undefined) {
-		return db.select().from(Product).orderBy(sortKey);
+	const cannotGetProductFilters = filters.length <= 0 || filters[0] === "" || filters === undefined;
+	if (cannotGetProductFilters) {
+		parsedOptions["filterKeys"] = undefined;
 	}
-	const filterKeys = filters.map((filter) => eq(Product.category, filter));
+	else {
+		parsedOptions["filterKeys"] = () => filters.map((filter) => eq(Product.category, filter.toString()));
+	}
 
-	return db.select().from(Product).where(or(...filterKeys)).orderBy(sortKey);
+	return parsedOptions;
+}
+
+export async function queryAllProducts(
+	pageNumber: number = undefined,
+	pageSize: number = DEFAULT_PAGE_SIZE
+) {
+	if (pageNumber === undefined || pageSize === undefined) {
+		return db.select().from(Product).orderBy(asc(Product.category));
+	}
+	if (pageNumber <= 0 || pageSize <= 0) { return undefined; }
+
+	const offset = getPageOffset(pageNumber, pageSize);
+	return db.select().from(Product).limit(pageSize).offset(offset).orderBy(asc(Product.category));
+}
+
+export async function queryProducts(
+	options: queryProductsOptions = undefined,
+	fields: partialSelectFields = undefined,
+	pageNumber: number = undefined,
+	pageSize: number = DEFAULT_PAGE_SIZE
+) {
+	const invalidPageOptions = (pageNumber !== undefined && pageNumber <= 0 || pageSize <= 0);
+	if (invalidPageOptions) { return undefined; }
+
+	const partials = (fields) ? fields : await selectAllProductColumns();
+	const { sortKey, filterKeys } = handleQueryOptions(options);
+
+	if (pageNumber === undefined) {
+		if (!filterKeys) {
+			return db.select(partials).from(Product).orderBy(sortKey);
+		}
+		return db.select(partials).from(Product).where(or(...filterKeys())).orderBy(sortKey);
+	}
+
+	const offset = getPageOffset(pageNumber, pageSize);
+	if (!filterKeys) {
+		return db.select(partials).from(Product).limit(pageSize).offset(offset).orderBy(sortKey);
+	}
+	return db.select(partials).from(Product).where(or(...filterKeys())).limit(pageSize).offset(offset).orderBy(sortKey);
 }
