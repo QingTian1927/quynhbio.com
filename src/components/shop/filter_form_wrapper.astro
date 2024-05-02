@@ -1,0 +1,22 @@
+---
+import FilterForm from "./filter_form.vue";
+import { retrieveCategories } from "../../scripts/databaseUtils";
+
+const { lang, sortKeyMapping, parseFormData } = Astro.props;
+const categories = await retrieveCategories();
+const formData = await parseFormData();
+---
+
+<div class="w-full flex items-center justify-center">
+	<div
+		class="w-full lg:w-4/5 px-8 py-10 flex flex-col lg:flex-row items-start justify-center"
+	>
+		<FilterForm
+			client:load
+			lang={lang}
+			categories={categories}
+			sortKeyMapping={sortKeyMapping()}
+			formData={formData}
+		/>
+	</div>
+</div>
