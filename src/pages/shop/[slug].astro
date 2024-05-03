@@ -1,25 +1,17 @@
 ---
 export const prerender = false;
-import { Product } from "astro:db";
 import { getRelativeLocaleUrl } from "astro:i18n";
 
 import Basehead from "../../components/shared/basehead.astro";
 import Navbar from "../../components/shared/navbar.astro";
 import AccentBanner from "../../components/shared/accentBanner.astro";
-import ProductGrid from "../../components/shop/product_grid.vue";
+import FilterFormWrapper from "../../components/shop/filter_form_wrapper.astro";
+import ProductGridWrapper from "../../components/shop/product_grid_wrapper.astro";
+import PageNavbarWrapper from "../../components/shop/page_navbar_wrapper.astro";
 import Footer from "../../components/shared/footer.astro";
 
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
-import {
-	type sortKeyMapping,
-	type queryProductsOptions,
-	type partialSelectFields,
-	DEFAULT_PAGE_SIZE,
-	retrieveCategories,
-	queryProducts,
-	getProductSortKey,
-	countAllMatchingRows,
-} from "../../scripts/databaseUtils";
+import { DEFAULT_PAGE_SIZE, countAllMatchingRows } from "../../scripts/databaseUtils";
 
 const location = "Shop";
 const lang = getLangFromUrl(Astro.url);
@@ -43,46 +35,6 @@ async function parseFormData() {
 }
 const formData = await parseFormData();
 
-const sortKeyMapping = {
-	name_asc: {
-		sortKey: getProductSortKey("name", "asc"),
-		label: translate("shop.filterForm.nameAsc"),
-	},
-	name_desc: {
-		sortKey: getProductSortKey("name", "desc"),
-		label: translate("shop.filterForm.nameDesc"),
-	},
-	category_asc: {
-		sortKey: getProductSortKey("category", "asc"),
-		label: translate("shop.filterForm.categoryAsc"),
-	},
-	category_desc: {
-		sortKey: getProductSortKey("category", "desc"),
-		label: translate("shop.filterForm.categoryDesc"),
-	},
-	price_asc: {
-		sortKey: getProductSortKey("price", "asc"),
-		label: translate("shop.filterForm.priceAsc"),
-	},
-	price_desc: {
-		sortKey: getProductSortKey("price", "desc"),
-		label: translate("shop.filterForm.priceDesc"),
-	},
-} satisfies sortKeyMapping;
-
-const queryOptions = {
-	sortKeyMapping: sortKeyMapping,
-	order: formData.order,
-	filters: formData.filters,
-} satisfies queryProductsOptions;
-
-const selectedColumns = {
-	name: Product.name,
-	category: Product.category,
-	price: Product.price,
-	media: Product.media,
-} satisfies partialSelectFields;
-
 const { slug } = Astro.params;
 if (slug === undefined) {
 	throw new Error("Shop pagination [slug] is undefined");
@@ -92,35 +44,13 @@ const redirect404 = () => Astro.redirect(getRelativeLocaleUrl(lang, "404"));
 const pageSize = DEFAULT_PAGE_SIZE;
 const pageNumber = Number(slug);
 
-if (Number.isNaN(pageNumber) || pageNumber <= 0) { redirect404(); }
-
+if (Number.isNaN(pageNumber) || pageNumber <= 0) {
+	redirect404();
+}
 const numberOfPages = Math.ceil((await countAllMatchingRows()) / pageSize);
-if (pageNumber > numberOfPages) { redirect404(); }
-
-const categories = await retrieveCategories();
-const products = await queryProducts(
-	queryOptions,
-	selectedColumns,
-	pageNumber,
-	pageSize,
-);
-
-const productPage = {
-	formMethod: Astro.request.method,
-	catalogue: {
-		categories: categories,
-		products: products
-	},
-
-	firstPage: "1",
-	previousPage: pageNumber === 1 ? undefined : `${pageNumber - 1}`,
-	currentPage: pageNumber.toString(),
-	nextPage:
-		pageNumber === numberOfPages || products.length < pageSize
-			? undefined
-			: `${pageNumber + 1}`,
-	lastPage: numberOfPages.toString(),
-};
+if (pageNumber > numberOfPages) {
+	redirect404();
+}
 ---
 
 <html lang={lang}>
@@ -140,13 +70,29 @@ const productPage = {
 				subtitle={translate("shop.banner.subtitle")}
 			/>
 
-			<ProductGrid
-				client:load
-				lang={lang}
-				formData={formData}
-				sortKeyMapping={sortKeyMapping}
-				productPage={productPage}
-			/>
+			<div class="w-full flex items-center justify-center">
+				<div
+					class="w-full lg:w-4/5 px-8 py-10 flex flex-col lg:flex-row items-start justify-center"
+				>
+					<FilterFormWrapper lang={lang} formData={formData} />
+					<ProductGridWrapper
+						lang={lang}
+						formData={formData}
+						pageNumber={pageNumber}
+						pageSize={pageSize}
+					/>
+				</div>
+			</div>
+
+			<div
+				class="w-full lg:w-4/5 lg:mx-auto px-8 py-10 pt-0 flex items-center justify-center"
+			>
+				<PageNavbarWrapper
+					lang={lang}
+					pageNumber={pageNumber}
+					numberOfPages={numberOfPages}
+				/>
+			</div>
 
 			<Footer />
 		</div>
