@@ -58,7 +58,7 @@ onMounted(() => {
 		</div>
 		<hr class="my-5 px-3.5 border-stone-800 dark:border-orange-100">
 
-		<form ref="filterForm" method="POST">
+		<form id="filterForm" method="POST">
 			<fieldset class="accent-red-400 dark:accent-red-400 mb-5">
 				<legend class="text-lg font-semibold mb-1">{{ translate('shop.filterForm.sortBy') }}</legend>
 
@@ -86,7 +86,7 @@ onMounted(() => {
 			</fieldset>
 
 			<div class="w-full flex items-center justify-center mb-0 md:mb-5">
-				<button ref="filterFormSubmitButton" type="submit"
+				<button id="filterFormSubmitButton" type="submit"
 					class="px-3.5 py-2.5 rounded-md bg-orange-200 hover:bg-red-300 dark:bg-stone-700 dark:hover:bg-red-400">
 					{{ translate('shop.filterForm.viewResults') }}
 				</button>
