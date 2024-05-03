@@ -7,11 +7,12 @@ import {
 	type partialSelectFields,
 	queryProducts,
 } from "../../scripts/databaseUtils";
+import { getSortKeyMapping } from "./getSortKeyMapping";
 
-const { lang, sortKeyMapping, formData, pageNumber, pageSize } = Astro.props;
+const { lang, formData, pageNumber, pageSize } = Astro.props;
 
 const queryOptions = {
-	sortKeyMapping: sortKeyMapping(),
+	sortKeyMapping: getSortKeyMapping(lang),
 	order: formData.order,
 	filters: formData.filters,
 } satisfies queryProductsOptions;
