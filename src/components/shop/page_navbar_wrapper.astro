@@ -1,0 +1,15 @@
+---
+import PageNavbar from "./page_navbar.vue";
+
+const { lang, pageNumber, numberOfPages } = Astro.props;
+
+const productPage = {
+	firstPage: "1",
+	previousPage: pageNumber === 1 ? undefined : `${pageNumber - 1}`,
+	currentPage: pageNumber.toString(),
+	nextPage: pageNumber === numberOfPages ? undefined : `${pageNumber + 1}`,
+	lastPage: numberOfPages.toString(),
+};
+---
+
+<PageNavbar client:load productPage={productPage} formMethod={Astro.request.method} lang={lang} />
