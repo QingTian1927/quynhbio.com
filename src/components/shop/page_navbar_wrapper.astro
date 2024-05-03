@@ -12,4 +12,9 @@ const productPage = {
 };
 ---
 
-<PageNavbar client:load productPage={productPage} formMethod={Astro.request.method} lang={lang} />
+<PageNavbar
+	client:load
+	productPage={productPage}
+	formMethod={Astro.request.method}
+	lang={lang}
+/>
