@@ -92,10 +92,10 @@ export function handleQueryOptions(options: queryProductsOptions) {
 	};
 
 	const { sortKeyMapping, filters } = options;
-	const order = options.order.toString();
+	const order = (options && options.order) ? options.order.toString() : "";
 
 	const cannotGetSortOrder =
-		order === undefined ||
+		!order ||
 		sortKeyMapping === undefined ||
 		sortKeyMapping[order] === undefined ||
 		sortKeyMapping[order].sortKey === undefined;
@@ -184,17 +184,17 @@ export async function queryProducts(
 }
 
 export async function countAllMatchingRows(
-	options: queryProductsOptions = undefined
+	filters: FormDataEntryValue[] = undefined
 ) {
-	let result = [{length: undefined}];
+	let result = [{ length: undefined }];
 
-	if (!options) {
+	if (!filters || filters[0] === "") {
 		result = await db.select({ length: count(Product.id) }).from(Product);
 	} else {
-		const { filterKeys } = handleQueryOptions(options);
+		const filterKeys = () => filters.map((filter) => eq(Product.category, filter.toString()));
 
 		result = filterKeys
-			? await db.select({ length: count(or(...filterKeys())) }).from(Product)
+			? await db.select({ length: count() }).from(Product).where(or(...filterKeys()))
 			: await db.select({ length: count(Product.id) }).from(Product);
 	}
 
