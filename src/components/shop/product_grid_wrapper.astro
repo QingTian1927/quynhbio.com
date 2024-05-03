@@ -1,0 +1,34 @@
+---
+import { Product } from "astro:db";
+
+import ProductGrid from "./product_grid.vue";
+import {
+	type queryProductsOptions,
+	type partialSelectFields,
+	queryProducts,
+} from "../../scripts/databaseUtils";
+
+const { lang, sortKeyMapping, formData, pageNumber, pageSize } = Astro.props;
+
+const queryOptions = {
+	sortKeyMapping: sortKeyMapping(),
+	order: formData.order,
+	filters: formData.filters,
+} satisfies queryProductsOptions;
+
+const selectedColumns = {
+	name: Product.name,
+	category: Product.category,
+	price: Product.price,
+	media: Product.media,
+} satisfies partialSelectFields;
+
+const products = await queryProducts(
+	queryOptions,
+	selectedColumns,
+	pageNumber,
+	pageSize
+);
+---
+
+<ProductGrid client:load lang={lang} products={products} />
