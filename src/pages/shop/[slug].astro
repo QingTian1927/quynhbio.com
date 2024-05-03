@@ -10,6 +10,7 @@ import ProductGridWrapper from "../../components/shop/product_grid_wrapper.astro
 import PageNavbarWrapper from "../../components/shop/page_navbar_wrapper.astro";
 import Footer from "../../components/shared/footer.astro";
 
+import { defaultLang } from "../../i18n/ui";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import { DEFAULT_PAGE_SIZE, countAllMatchingRows } from "../../scripts/databaseUtils";
 
@@ -47,7 +48,7 @@ const pageNumber = Number(slug);
 if (Number.isNaN(pageNumber) || pageNumber <= 0) {
 	redirect404();
 }
-const numberOfPages = Math.ceil((await countAllMatchingRows()) / pageSize);
+const numberOfPages = Math.ceil((await countAllMatchingRows(formData.filters)) / pageSize);
 if (pageNumber > numberOfPages) {
 	redirect404();
 }
@@ -89,12 +90,48 @@ if (pageNumber > numberOfPages) {
 			>
 				<PageNavbarWrapper
 					lang={lang}
+					formData={formData}
 					pageNumber={pageNumber}
 					numberOfPages={numberOfPages}
 				/>
 			</div>
 
 			<Footer />
+
+			<script define:vars={{ defaultLang, lang, pageNumber, numberOfPages, formMethod: formData.method }}>
+				const productPage = {
+					firstPage: "1",
+					previousPage: pageNumber === 1 ? undefined : `${pageNumber - 1}`,
+					currentPage: pageNumber.toString(),
+					nextPage: pageNumber === numberOfPages ? undefined : `${pageNumber + 1}`,
+					lastPage: numberOfPages.toString(),
+				};
+
+				const filterForm = document.getElementById("filterForm");
+				const filterFormSubmitButton = document.getElementById("filterFormSubmitButton");
+				const firstPageButton = document.getElementById("firstPageButton");
+				const prevPageButton = document.getElementById("prevPageButton");
+				const nextPageButton = document.getElementById("nextPageButton");
+				const lastPageButton = document.getElementById("lastPageButton");
+
+				function getRelativeLocaleUrl(lang, relativePath) {
+					if (lang === defaultLang) { return `/${relativePath}`; }
+					return `/${lang}/${relativePath}`;
+				}
+
+				function postToPage(pageUrl) {
+					filterForm.action = getRelativeLocaleUrl(lang, `shop/${pageUrl}`);
+					filterForm.submit();
+				}
+
+				filterFormSubmitButton.addEventListener("click", () => { postToPage(productPage.firstPage) })
+				if (formMethod === "POST") {
+					firstPageButton.addEventListener("click", () => { postToPage(productPage.firstPage) })
+					prevPageButton.addEventListener("click", () => { postToPage(productPage.previousPage) })
+					nextPageButton.addEventListener("click", () => { postToPage(productPage.nextPage) })
+					lastPageButton.addEventListener("click", () => { postToPage(productPage.lastPage) })
+				}
+			</script>
 		</div>
 	</body>
 </html>

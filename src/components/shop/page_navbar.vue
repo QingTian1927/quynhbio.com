@@ -1,5 +1,4 @@
 <script setup>
-import { ref, onMounted } from 'vue';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { useTranslations } from '../../i18n/utils';
 
@@ -53,7 +52,7 @@ const translate = useTranslations(lang);
 			</svg>
 		</a>
 
-		<button ref="firstPageButton" v-if="formMethod === 'POST'"
+		<button id="firstPageButton" v-if="formMethod === 'POST'"
 			:class="{ invisible: !previousPage || currentPage === firstPage }"
 			class="order-first self-stretch aspect-square mr-2 flex items-center justify-center">
 			<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
@@ -62,7 +61,7 @@ const translate = useTranslations(lang);
 					d="M.5 3.5A.5.5 0 0 0 0 4v8a.5.5 0 0 0 1 0V8.753l6.267 3.636c.54.313 1.233-.066 1.233-.697v-2.94l6.267 3.636c.54.314 1.233-.065 1.233-.696V4.308c0-.63-.693-1.01-1.233-.696L8.5 7.248v-2.94c0-.63-.692-1.01-1.233-.696L1 7.248V4a.5.5 0 0 0-.5-.5" />
 			</svg>
 		</button>
-		<button ref="prevPageButton" v-if="formMethod === 'POST'" :class="{ invisible: !previousPage }"
+		<button id="prevPageButton" v-if="formMethod === 'POST'" :class="{ invisible: !previousPage }"
 			class="order-2 self-stretch aspect-square mr-2 flex items-center justify-center">
 			<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
 				class="bi bi-skip-start-fill fill-stone-800 dark:fill-orange-100" viewBox="0 0 16 16">
@@ -70,7 +69,7 @@ const translate = useTranslations(lang);
 					d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.54-.313 1.232.066 1.232.696v7.384c0 .63-.692 1.01-1.232.697L5 8.753V12a.5.5 0 0 1-1 0z" />
 			</svg>
 		</button>
-		<button ref="nextPageButton" v-if="formMethod === 'POST'" :class="{ invisible: !nextPage }"
+		<button id="nextPageButton" v-if="formMethod === 'POST'" :class="{ invisible: !nextPage }"
 			class="order-4 self-stretch aspect-square ml-2 flex items-center justify-center">
 			<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
 				class="bi bi-skip-end-fill fill-stone-800 dark:fill-orange-100" viewBox="0 0 16 16">
@@ -78,7 +77,7 @@ const translate = useTranslations(lang);
 					d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.693 3.3 4 3.678 4 4.308v7.384c0 .63.692 1.01 1.233.697L11.5 8.753V12a.5.5 0 0 0 1 0z" />
 			</svg>
 		</button>
-		<button ref="lastPageButton" v-if="formMethod === 'POST'"
+		<button id="lastPageButton" v-if="formMethod === 'POST'"
 			:class="{ invisible: !nextPage || currentPage === lastPage }"
 			class="order-last self-stretch aspect-square ml-2 flex items-center justify-center">
 
