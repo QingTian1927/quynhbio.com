@@ -1,5 +1,4 @@
 <script setup>
-import { ref, onMounted } from 'vue';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getLinkForm } from '../../scripts/routingUtils.ts'
 import { useTranslations } from '../../i18n/utils.ts';
