@@ -1,0 +1,16 @@
+---
+import FilterForm from "./filter_form.vue";
+import { retrieveCategories } from "../../scripts/databaseUtils";
+import { getSortKeyMapping } from "./getSortKeyMapping";
+
+const { lang, formData } = Astro.props;
+const categories = await retrieveCategories();
+---
+
+<FilterForm
+	client:load
+	lang={lang}
+	categories={categories}
+	sortKeyMapping={getSortKeyMapping(lang)}
+	formData={formData}
+/>

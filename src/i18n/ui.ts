@@ -50,6 +50,10 @@ export const ui = {
 		'shop.filterForm.viewResults': 'Show Results',
 		'shop.filterButton': 'Filters & Sort by',
 		'shop.productGrid.title': 'Products',
+		'shop.pageNav.prev': 'Go to previous page',
+		'shop.pageNav.next': 'Go to next page',
+		'shop.pageNav.first': 'Go to first page',
+		'shop.pageNav.last': 'Go to last page',
 
 		'blog.banner.title': 'Blog Posts',
 		'blog.banner.subtitle': 'Get the latest news, makeup guides and beauty tips from yours truly.',
@@ -111,6 +115,10 @@ export const ui = {
 		'shop.filterForm.viewResults': 'Hiện kết quả',
 		'shop.filterButton': 'Sắp Xếp & Lọc Sản Phẩm',
 		'shop.productGrid.title': 'Sản Phẩm',
+		'shop.pageNav.prev': 'Sang trang phía trước',
+		'shop.pageNav.next': 'Sang trang tiếp theo',
+		'shop.pageNav.first': 'Sang trang đầu tiên',
+		'shop.pageNav.last': 'Sang trang cuối cùng',
 
 		'blog.banner.title': 'Tin Tức',
 		'blog.banner.subtitle': 'Cập nhật những thông tin mới nhất về chủ đề chăm sóc sắc đẹp',
