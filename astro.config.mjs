@@ -13,17 +13,24 @@ export default defineConfig({
     port: 6969,
     host: true
   },
-  markdown: {
-    syntaxHighlight: false
+
+  redirects: {
+    '/[legal]': '/legal/[legal]',
   },
+
   i18n: {
     defaultLocale: "vi",
     locales: ["en", "vi"]
   },
+
   output: "hybrid",
   adapter: node({
     mode: "standalone"
   }),
+
+  markdown: {
+    syntaxHighlight: false
+  },
 
   integrations: [
     tailwind(),
