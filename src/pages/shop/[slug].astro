@@ -46,11 +46,11 @@ const pageSize = DEFAULT_PAGE_SIZE;
 const pageNumber = Number(slug);
 
 if (Number.isNaN(pageNumber) || pageNumber <= 0) {
-	redirect404();
+	return redirect404()
 }
 const numberOfPages = Math.ceil((await countAllMatchingRows(formData.filters)) / pageSize);
 if (pageNumber > numberOfPages) {
-	redirect404();
+	return redirect404();
 }
 ---
 
